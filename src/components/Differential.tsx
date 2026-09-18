@@ -33,7 +33,8 @@ export default function Differential() {
             alt="Dra. Simone em atendimento no consultório da Concept"
             fill
             sizes="(max-width: 1024px) 100vw, 58vw"
-            className="object-cover object-[50%_18%]"
+            unoptimized
+            className="parallax-img object-cover object-[50%_18%]"
           />
         </div>
       </div>

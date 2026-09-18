@@ -49,13 +49,13 @@ export default function Schedule({ onOpenForm }: { onOpenForm: () => void }) {
               </div>
 
               <div className="lg:col-span-5 mt-10 lg:mt-0">
-                <div className="relative aspect-[4/5] max-w-[420px] mx-auto lg:max-w-none mb-6 rounded-[20px] overflow-hidden bg-ink-100">
+                <div className="img-reveal relative aspect-[4/5] max-w-[420px] mx-auto lg:max-w-none mb-6 rounded-[20px] overflow-hidden bg-ink-100">
                   <Image
                     src="/marca/dra-simone-modelo.webp"
                     alt="Dra. Simone explicando o tratamento com um modelo odontológico"
                     fill
                     sizes="(max-width: 1024px) 420px, 35vw"
-                    className="object-cover object-top"
+                    className="parallax-img object-cover object-top"
                   />
                 </div>
                 <button

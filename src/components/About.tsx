@@ -14,13 +14,16 @@ export default function About() {
         <div className="lg:grid lg:grid-cols-12 lg:gap-16 lg:items-center">
           <AnimatedSection className="lg:col-span-5 mb-14 lg:mb-0">
             <figure className="relative max-w-[440px] mx-auto lg:max-w-none">
-              <div className="relative aspect-[4/5] rounded-[24px] overflow-hidden bg-ink-900">
+              <div
+                className="img-reveal relative aspect-[4/5] rounded-[24px] overflow-hidden bg-ink-900"
+                style={{ "--reveal-radius": "24px" } as React.CSSProperties}
+              >
                 <Image
                   src="/marca/dra-simone.webp"
                   alt="Dra. Simone H., responsável técnica da Concept"
                   fill
                   sizes="(max-width: 1024px) 440px, 40vw"
-                  className="object-cover object-top"
+                  className="parallax-img object-cover object-top"
                 />
               </div>
               <figcaption className="mt-5 flex items-center gap-4">

@@ -179,6 +179,58 @@ body {
   mask-image: linear-gradient(to bottom, #000 55%, transparent 92%);
 }
 
+/* Motion das fotos. Sem suporte a scroll timelines (ou com movimento
+   reduzido), tudo fica estático e visível. */
+@keyframes heroPhotoIn {
+  from { opacity: 0; transform: scale(1.06); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.animate-hero-photo {
+  animation: heroPhotoIn 1.6s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+
+@keyframes parallax {
+  from { transform: translateY(-6%) scale(1.14); }
+  to { transform: translateY(6%) scale(1.14); }
+}
+
+@keyframes heroDrift {
+  from { transform: translateY(0) scale(1); }
+  to { transform: translateY(10%) scale(1.08); }
+}
+
+@keyframes imgReveal {
+  from { clip-path: inset(12% 10% 12% 10% round var(--reveal-radius, 20px)); }
+  to { clip-path: inset(0 0 0 0 round var(--reveal-radius, 20px)); }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* Foto desliza dentro da moldura enquanto a seção passa. */
+    .parallax-img {
+      animation: parallax linear both;
+      animation-timeline: view();
+    }
+    /* Fachada do Hero se afasta devagar ao rolar para fora do topo. */
+    .hero-drift {
+      animation: heroDrift linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 100vh;
+    }
+    /* Retratos se abrem de um recorte menor até a moldura inteira. */
+    .img-reveal {
+      animation: imgReveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 40%;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-hero-photo { animation: none; }
+}
+
 /* Tailwind v4 tira o cursor de mão dos botões; devolve em tudo que é clicável. */
 @layer base {
   button:not(:disabled),

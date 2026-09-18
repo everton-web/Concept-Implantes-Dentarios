@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import WhatsAppIcon from "./WhatsAppIcon";
+import SpecialtyTicker from "./SpecialtyTicker";
 
 const BADGES = ["CRO-SC 19661", "7+ anos de dedicação", "Centro de Camboriú - SC"];
 
@@ -17,7 +18,7 @@ export default function Hero({ onOpenForm }: { onOpenForm: () => void }) {
           O térreo (farmácia) já vem desfocado e escurecido na própria imagem. */}
       <div
         style={{ animationDelay: "0.3s" }}
-        className="animate-fade hidden lg:block absolute inset-y-0 right-0 left-[round(46%,1px)]"
+        className="animate-hero-photo hidden lg:block absolute inset-y-0 right-0 left-[round(46%,1px)]"
       >
         <div className="hero-photo absolute inset-0">
           <div className="hero-photo-y absolute inset-0">
@@ -27,7 +28,7 @@ export default function Hero({ onOpenForm }: { onOpenForm: () => void }) {
               fill
               priority
               sizes="54vw"
-              className="object-cover object-[0%_30%]"
+              className="hero-drift object-cover object-[0%_30%]"
             />
           </div>
         </div>
@@ -35,25 +36,23 @@ export default function Hero({ onOpenForm }: { onOpenForm: () => void }) {
 
       <div className="relative mx-auto max-w-[1200px] w-full px-6 md:px-10 lg:px-16 pt-20 pb-24 lg:pt-24 lg:pb-20">
         <div className="max-w-[760px]">
+          <div
+            style={{ animationDelay: "0.05s" }}
+            className="animate-rise inline-flex items-center gap-2.5 mb-8 px-3.5 py-1.5 rounded-full border border-white/[0.12] bg-white/[0.04]"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-gold-300" />
+            <SpecialtyTicker />
+          </div>
+
           <Image
             src="/marca/logo-concept.png"
             alt="Concept Implantes Dentários"
             width={391}
             height={180}
             priority
-            style={{ animationDelay: "0.05s" }}
-            className="animate-rise h-[60px] sm:h-[72px] lg:h-[84px] w-auto mb-9"
-          />
-
-          <div
             style={{ animationDelay: "0.1s" }}
-            className="animate-rise inline-flex items-center gap-2.5 mb-8 px-3.5 py-1.5 rounded-full border border-white/[0.12] bg-white/[0.04]"
-          >
-            <span className="w-1.5 h-1.5 rounded-full bg-gold-300" />
-            <span className="text-[0.6875rem] font-semibold uppercase tracking-[0.12em] text-gold-200">
-              Implantodontia e reabilitação oral em Camboriú
-            </span>
-          </div>
+            className="animate-rise block h-[44px] sm:h-[52px] lg:h-[60px] w-auto mb-8"
+          />
 
           <h1
             style={{ animationDelay: "0.2s" }}
