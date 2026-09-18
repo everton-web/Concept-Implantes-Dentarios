@@ -168,15 +168,22 @@ body {
   }
 }
 
-/* Fachada no Hero: some à esquerda (lado do texto) e embaixo (térreo).
-   Sem `filter` aqui; o escurecimento já vem na própria imagem. */
-.hero-photo {
-  -webkit-mask-image: linear-gradient(to right, transparent 3%, #000 38%);
-  mask-image: linear-gradient(to right, transparent 3%, #000 38%);
-}
+/* Retrato do Hero: no mobile some só embaixo (o texto sobe por cima);
+   no desktop some também à esquerda, do lado do texto. */
 .hero-photo-y {
-  -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent 92%);
-  mask-image: linear-gradient(to bottom, #000 55%, transparent 92%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 40%, transparent 96%);
+  mask-image: linear-gradient(to bottom, #000 40%, transparent 96%);
+}
+
+@media (min-width: 1024px) {
+  .hero-photo {
+    -webkit-mask-image: linear-gradient(to right, transparent 3%, #000 42%);
+    mask-image: linear-gradient(to right, transparent 3%, #000 42%);
+  }
+  .hero-photo-y {
+    -webkit-mask-image: linear-gradient(to bottom, #000 62%, transparent 99%);
+    mask-image: linear-gradient(to bottom, #000 62%, transparent 99%);
+  }
 }
 
 /* Motion das fotos. Sem suporte a scroll timelines (ou com movimento
@@ -212,7 +219,7 @@ body {
       animation: parallax linear both;
       animation-timeline: view();
     }
-    /* Fachada do Hero se afasta devagar ao rolar para fora do topo. */
+    /* Foto do Hero se afasta devagar ao rolar para fora do topo. */
     .hero-drift {
       animation: heroDrift linear both;
       animation-timeline: scroll(root);
@@ -229,6 +236,57 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   .animate-hero-photo { animation: none; }
+}
+
+/* Implante montando ao rolar: pino desce no osso, depois o conector,
+   depois a coroa; cada passo do texto acende junto com a sua peça.
+   Sem suporte (ou com movimento reduzido), aparece montado e aceso. */
+@keyframes implantDrop {
+  0% { opacity: 0; transform: translateY(-200px); }
+  30% { opacity: 1; }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes implantGlow {
+  from { opacity: 0; }
+  to { opacity: 0.12; }
+}
+
+@keyframes stepOn {
+  from { opacity: 0.28; }
+  to { opacity: 1; }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .implant-scroll { view-timeline-name: --implant; }
+
+    .implant-part,
+    .implant-glow,
+    .implant-step {
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: --implant;
+    }
+    .implant-part { animation-name: implantDrop; }
+    .implant-glow { animation-name: implantGlow; }
+    .implant-step { animation-name: stepOn; }
+
+    /* Mobile: a seção atravessa a tela normalmente. */
+    .implant-screw, .implant-step-1 { animation-range: cover 18% cover 34%; }
+    .implant-abutment, .implant-step-2 { animation-range: cover 34% cover 48%; }
+    .implant-crown, .implant-step-3 { animation-range: cover 48% cover 62%; }
+    .implant-glow { animation-range: cover 58% cover 70%; }
+
+    /* Desktop: a seção é alta e o palco fica fixo; a montagem ocupa o tempo
+       em que ele está parado na tela. */
+    @media (min-width: 1024px) {
+      .implant-screw, .implant-step-1 { animation-range: contain 0% contain 30%; }
+      .implant-abutment, .implant-step-2 { animation-range: contain 32% contain 58%; }
+      .implant-crown, .implant-step-3 { animation-range: contain 60% contain 86%; }
+      .implant-glow { animation-range: contain 84% contain 100%; }
+    }
+  }
 }
 
 /* Tailwind v4 tira o cursor de mão dos botões; devolve em tudo que é clicável. */

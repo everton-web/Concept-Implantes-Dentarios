@@ -6,6 +6,7 @@ import Marquee from "@/components/Marquee";
 import Brand from "@/components/Brand";
 import About from "@/components/About";
 import Differential from "@/components/Differential";
+import ImplantScroll from "@/components/ImplantScroll";
 import Specialties from "@/components/Specialties";
 import Method from "@/components/Method";
 import Results from "@/components/Results";
@@ -28,6 +29,7 @@ export default function Home() {
         <Brand />
         <About />
         <Differential />
+        <ImplantScroll />
         <Specialties onOpenForm={openForm} />
         <Method />
         <Results />

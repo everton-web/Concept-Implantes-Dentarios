@@ -19,11 +19,11 @@ export default function About() {
                 style={{ "--reveal-radius": "24px" } as React.CSSProperties}
               >
                 <Image
-                  src="/marca/dra-simone.webp"
-                  alt="Dra. Simone H., responsável técnica da Concept"
+                  src="/marca/dra-simone-estudo.webp"
+                  alt="Dra. Simone H. estudando o planejamento de um caso com modelo odontológico"
                   fill
                   sizes="(max-width: 1024px) 440px, 40vw"
-                  className="parallax-img object-cover object-top"
+                  className="parallax-img object-cover object-[65%_center]"
                 />
               </div>
               <figcaption className="mt-5 flex items-center gap-4">
