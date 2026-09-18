@@ -166,6 +166,19 @@ body {
   }
 }
 
+/* Fachada no Hero: some à esquerda (lado do texto) e embaixo (térreo). */
+.hero-photo {
+  filter: brightness(0.85);
+  -webkit-mask-image:
+    linear-gradient(to right, transparent 3%, #000 38%),
+    linear-gradient(to bottom, #000 55%, transparent 92%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to right, transparent 3%, #000 38%),
+    linear-gradient(to bottom, #000 55%, transparent 92%);
+  mask-composite: intersect;
+}
+
 /* Tailwind v4 tira o cursor de mão dos botões; devolve em tudo que é clicável. */
 @layer base {
   button:not(:disabled),

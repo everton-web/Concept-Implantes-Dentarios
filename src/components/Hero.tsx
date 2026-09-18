@@ -13,6 +13,22 @@ export default function Hero({ onOpenForm }: { onOpenForm: () => void }) {
         className="animate-fade absolute top-[-20%] right-[-10%] w-[60vw] h-[60vw] max-w-[760px] max-h-[760px] rounded-full bg-[radial-gradient(circle,rgba(252,219,159,0.10),transparent_65%)] blur-2xl"
       />
 
+      {/* Fachada da Concept: à direita no desktop, dissolvendo no fundo escuro.
+          O térreo (farmácia) já vem desfocado e escurecido na própria imagem. */}
+      <div
+        style={{ animationDelay: "0.3s" }}
+        className="animate-fade hero-photo hidden lg:block absolute inset-y-0 right-0 left-[round(46%,1px)]"
+      >
+        <Image
+          src="/marca/fachada.webp"
+          alt="Fachada da Concept Implantes Dentários no Centro de Camboriú"
+          fill
+          priority
+          sizes="54vw"
+          className="object-cover object-[0%_30%]"
+        />
+      </div>
+
       <div className="relative mx-auto max-w-[1200px] w-full px-6 md:px-10 lg:px-16 pt-20 pb-24 lg:pt-24 lg:pb-20">
         <div className="max-w-[760px]">
           <Image

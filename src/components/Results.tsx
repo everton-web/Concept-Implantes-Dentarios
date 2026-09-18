@@ -84,10 +84,18 @@ export default function Results() {
 
         {temFotos && (
           <AnimatedSection>
-            <p className="flex items-center gap-2.5 mb-6 text-[0.9375rem] text-ink-300">
-              <MousePointerClick size={18} strokeWidth={1.75} className="text-gold-400 shrink-0" aria-hidden />
-              Clique nas imagens para ver todos os resultados de cada caso.
-            </p>
+            {/* Chamada com peso de título: é o convite para abrir a galeria. */}
+            <h3 className="flex items-start gap-4 mb-10 max-w-[760px] text-[clamp(1.625rem,3vw,2.5rem)] leading-[1.15] tracking-[-0.02em] font-medium text-white text-balance">
+              <MousePointerClick
+                strokeWidth={1.5}
+                className="shrink-0 w-[1em] h-[1em] mt-[0.08em] text-gold-300"
+                aria-hidden
+              />
+              <span>
+                Clique nas imagens e veja{" "}
+                <span className="text-gold-300">todos os resultados</span> de cada caso.
+              </span>
+            </h3>
           </AnimatedSection>
         )}
 

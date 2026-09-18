@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { HeartHandshake, BrainCircuit, HandCoins } from "lucide-react";
 import AnimatedSection from "./AnimatedSection";
 
@@ -38,6 +39,16 @@ export default function Method() {
               <h2 className="text-[clamp(2rem,3.6vw,3.25rem)] leading-[1.1] tracking-[-0.025em] font-medium text-ink-950 text-balance">
                 Por que aqui o atendimento faz diferença
               </h2>
+
+              <div className="hidden lg:block relative mt-10 aspect-[4/5] rounded-[20px] overflow-hidden bg-ink-100">
+                <Image
+                  src="/marca/dra-simone-estudo.webp"
+                  alt="Dra. Simone estudando o planejamento de um caso com modelo odontológico"
+                  fill
+                  sizes="30vw"
+                  className="object-cover object-[60%_center]"
+                />
+              </div>
             </div>
           </AnimatedSection>
 
