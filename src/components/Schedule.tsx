@@ -55,10 +55,6 @@ export default function Schedule({ onOpenForm }: { onOpenForm: () => void }) {
                   Agende sua consulta
                   <WhatsAppIcon size={18} />
                 </button>
-                <p className="mt-4 text-[0.75rem] leading-[1.5] text-ink-500 text-center">
-                  Seus dados são usados apenas para o contato sobre o
-                  agendamento.
-                </p>
               </div>
             </div>
           </div>

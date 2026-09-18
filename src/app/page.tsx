@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Marquee from "@/components/Marquee";
 import Brand from "@/components/Brand";
@@ -23,7 +22,6 @@ export default function Home() {
 
   return (
     <>
-      <Header onOpenForm={openForm} />
       <main>
         <Hero onOpenForm={openForm} />
         <Marquee />

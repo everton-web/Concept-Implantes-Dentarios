@@ -13,7 +13,7 @@ export default function Hero({ onOpenForm }: { onOpenForm: () => void }) {
         className="animate-fade absolute top-[-20%] right-[-10%] w-[60vw] h-[60vw] max-w-[760px] max-h-[760px] rounded-full bg-[radial-gradient(circle,rgba(252,219,159,0.10),transparent_65%)] blur-2xl"
       />
 
-      <div className="relative mx-auto max-w-[1200px] w-full px-6 md:px-10 lg:px-16 pt-[104px] pb-24 lg:pt-[120px] lg:pb-20">
+      <div className="relative mx-auto max-w-[1200px] w-full px-6 md:px-10 lg:px-16 pt-20 pb-24 lg:pt-24 lg:pb-20">
         <div className="max-w-[760px]">
           <Image
             src="/marca/logo-concept.png"
@@ -22,7 +22,7 @@ export default function Hero({ onOpenForm }: { onOpenForm: () => void }) {
             height={180}
             priority
             style={{ animationDelay: "0.05s" }}
-            className="animate-rise h-[88px] sm:h-[112px] lg:h-[128px] w-auto mb-10"
+            className="animate-rise h-[60px] sm:h-[72px] lg:h-[84px] w-auto mb-9"
           />
 
           <div

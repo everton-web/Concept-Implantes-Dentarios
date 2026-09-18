@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { Quote, Info, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { Quote, Info, X, ChevronLeft, ChevronRight, MousePointerClick } from "lucide-react";
 import AnimatedSection from "./AnimatedSection";
 import { CASOS, type Caso } from "@/data/casos";
 
@@ -81,6 +81,15 @@ export default function Results() {
             </AnimatedSection>
           ))}
         </div>
+
+        {temFotos && (
+          <AnimatedSection>
+            <p className="flex items-center gap-2.5 mb-6 text-[0.9375rem] text-ink-300">
+              <MousePointerClick size={18} strokeWidth={1.75} className="text-gold-400 shrink-0" aria-hidden />
+              Clique nas imagens para ver todos os resultados de cada caso.
+            </p>
+          </AnimatedSection>
+        )}
 
         <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
           {CASOS.map((caso, i) => {

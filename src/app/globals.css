@@ -132,6 +132,20 @@ body {
   }
 }
 
+/* Quebra equilibrada em todo texto corrido: as linhas ficam com larguras
+   parecidas, sem uma linha longa seguida de uma curtinha. Navegadores sem
+   suporte simplesmente quebram do jeito normal. */
+@layer base {
+  p,
+  blockquote,
+  figcaption,
+  dt,
+  dd,
+  li {
+    text-wrap: balance;
+  }
+}
+
 /* Tailwind v4 tira o cursor de mão dos botões; devolve em tudo que é clicável. */
 @layer base {
   button:not(:disabled),

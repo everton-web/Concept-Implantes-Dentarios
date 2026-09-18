@@ -39,7 +39,7 @@ export default function Footer() {
               alt="Concept Implantes Dentários"
               width={391}
               height={180}
-              className="h-[96px] w-auto mb-6"
+              className="h-[60px] w-auto mb-6"
             />
             <p className="text-[0.9375rem] leading-[1.7] text-ink-400 max-w-[38ch] mb-5">
               Transformando sorrisos em vida, com respeito, escuta e dedicação.
