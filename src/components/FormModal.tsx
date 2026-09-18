@@ -192,11 +192,6 @@ export default function FormModal({ isOpen, onClose }: Props) {
                     </>
                   )}
                 </button>
-
-                <p className="mt-4 text-[0.75rem] leading-[1.5] text-ink-400 text-center">
-                  Seus dados são usados apenas para o contato sobre o
-                  agendamento, conforme a LGPD.
-                </p>
               </form>
             )}
           </motion.div>
