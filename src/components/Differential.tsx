@@ -22,19 +22,23 @@ const PILLARS = [
 export default function Differential() {
   return (
     <section id="diferenciais" className="relative -mt-px bg-ink-950 overflow-hidden">
-      {/* No mobile a foto vem antes do texto; no desktop vira o fundo da seção. */}
-      <div className="relative aspect-[4/5] sm:aspect-[16/10] lg:absolute lg:inset-0 lg:aspect-auto">
+      {/* Foto vertical: no mobile vem antes do texto; no desktop ocupa a metade
+          direita e se dissolve no fundo escuro, deixando a Dra. Simone livre. */}
+      <div className="relative aspect-[4/5] sm:aspect-[4/3] lg:absolute lg:inset-y-0 lg:right-0 lg:w-[58%] lg:aspect-auto">
         <Image
-          src="/marca/clinica-wide.webp"
+          src="/marca/dra-simone-consultorio.webp"
           alt="Dra. Simone em atendimento no consultório da Concept"
           fill
-          sizes="100vw"
-          className="object-cover object-[50%_30%] lg:object-[12%_center]"
+          sizes="(max-width: 1024px) 100vw, 58vw"
+          className="object-cover object-[50%_18%]"
         />
-        {/* Escurece só o lado do texto; a Dra. Simone fica à direita, sem nada à frente. */}
         <div
           aria-hidden
-          className="hidden lg:block absolute inset-0 bg-[linear-gradient(90deg,var(--color-ink-950)_0%,rgba(23,24,26,0.92)_34%,rgba(23,24,26,0.55)_50%,transparent_64%)]"
+          className="lg:hidden absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-ink-950 to-transparent"
+        />
+        <div
+          aria-hidden
+          className="hidden lg:block absolute inset-y-0 left-0 w-[45%] bg-gradient-to-r from-ink-950 via-ink-950/70 to-transparent"
         />
       </div>
 
