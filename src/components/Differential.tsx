@@ -24,16 +24,18 @@ export default function Differential() {
     <section id="diferenciais" className="relative -mt-px bg-ink-950 overflow-hidden">
       {/* Foto vertical: no mobile vem antes do texto; no desktop ocupa a metade
           direita e a máscara a dissolve no fundo escuro, sem emenda visível.
-          A borda esquerda fica num pixel inteiro para o Chrome não desenhar
-          uma linha fina na junção. */}
+          A borda esquerda fica num pixel inteiro, e cada fade tem seu próprio
+          elemento, para o Chrome não desenhar uma linha fina na junção. */}
       <div className="photo-fade relative aspect-[4/5] sm:aspect-[4/3] lg:absolute lg:inset-y-0 lg:right-0 lg:left-[round(42%,1px)] lg:aspect-auto">
-        <Image
-          src="/marca/dra-simone-consultorio.webp"
-          alt="Dra. Simone em atendimento no consultório da Concept"
-          fill
-          sizes="(max-width: 1024px) 100vw, 58vw"
-          className="object-cover object-[50%_18%]"
-        />
+        <div className="photo-fade-y absolute inset-0">
+          <Image
+            src="/marca/dra-simone-consultorio.webp"
+            alt="Dra. Simone em atendimento no consultório da Concept"
+            fill
+            sizes="(max-width: 1024px) 100vw, 58vw"
+            className="object-cover object-[50%_18%]"
+          />
+        </div>
       </div>
 
       <div className="relative mx-auto max-w-[1200px] px-6 md:px-10 lg:px-16 py-[72px] lg:py-[140px] lg:min-h-[100svh] lg:flex lg:items-center">

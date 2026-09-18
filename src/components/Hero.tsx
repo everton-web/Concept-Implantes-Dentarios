@@ -20,14 +20,16 @@ export default function Hero({ onOpenForm }: { onOpenForm: () => void }) {
         className="animate-fade hidden lg:block absolute inset-y-0 right-0 left-[round(46%,1px)]"
       >
         <div className="hero-photo absolute inset-0">
-          <Image
-            src="/marca/fachada.webp"
-            alt="Fachada da Concept Implantes Dentários no Centro de Camboriú"
-            fill
-            priority
-            sizes="54vw"
-            className="object-cover object-[0%_30%]"
-          />
+          <div className="hero-photo-y absolute inset-0">
+            <Image
+              src="/marca/fachada.webp"
+              alt="Fachada da Concept Implantes Dentários no Centro de Camboriú"
+              fill
+              priority
+              sizes="54vw"
+              className="object-cover object-[0%_30%]"
+            />
+          </div>
         </div>
       </div>
 

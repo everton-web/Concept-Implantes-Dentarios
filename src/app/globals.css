@@ -146,8 +146,12 @@ body {
   }
 }
 
-/* Foto que se dissolve no fundo escuro: embaixo no mobile, à esquerda e
-   no topo no desktop (onde fica ao lado do texto). */
+/* Fotos que se dissolvem no fundo escuro. Uma máscara por elemento: o
+   Chrome desenha uma linha fina na borda quando duas máscaras são combinadas
+   (mask-composite), então o fade horizontal e o vertical ficam em elementos
+   aninhados. */
+
+/* Differential: embaixo no mobile; à esquerda + topo/base no desktop. */
 .photo-fade {
   -webkit-mask-image: linear-gradient(to bottom, #000 62%, transparent);
   mask-image: linear-gradient(to bottom, #000 62%, transparent);
@@ -155,29 +159,24 @@ body {
 
 @media (min-width: 1024px) {
   .photo-fade {
-    -webkit-mask-image:
-      linear-gradient(to right, transparent 3%, #000 45%),
-      linear-gradient(to bottom, transparent 2%, #000 16%, #000 86%, transparent 98%);
-    -webkit-mask-composite: source-in;
-    mask-image:
-      linear-gradient(to right, transparent 3%, #000 45%),
-      linear-gradient(to bottom, transparent 2%, #000 16%, #000 86%, transparent 98%);
-    mask-composite: intersect;
+    -webkit-mask-image: linear-gradient(to right, transparent 3%, #000 45%);
+    mask-image: linear-gradient(to right, transparent 3%, #000 45%);
+  }
+  .photo-fade-y {
+    -webkit-mask-image: linear-gradient(to bottom, transparent 2%, #000 16%, #000 86%, transparent 98%);
+    mask-image: linear-gradient(to bottom, transparent 2%, #000 16%, #000 86%, transparent 98%);
   }
 }
 
 /* Fachada no Hero: some à esquerda (lado do texto) e embaixo (térreo).
-   Sem `filter` aqui: filtro + máscara faz o Chrome desenhar uma linha fina
-   na borda da camada; o escurecimento já vem na própria imagem. */
+   Sem `filter` aqui; o escurecimento já vem na própria imagem. */
 .hero-photo {
-  -webkit-mask-image:
-    linear-gradient(to right, transparent 3%, #000 38%),
-    linear-gradient(to bottom, #000 55%, transparent 92%);
-  -webkit-mask-composite: source-in;
-  mask-image:
-    linear-gradient(to right, transparent 3%, #000 38%),
-    linear-gradient(to bottom, #000 55%, transparent 92%);
-  mask-composite: intersect;
+  -webkit-mask-image: linear-gradient(to right, transparent 3%, #000 38%);
+  mask-image: linear-gradient(to right, transparent 3%, #000 38%);
+}
+.hero-photo-y {
+  -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent 92%);
+  mask-image: linear-gradient(to bottom, #000 55%, transparent 92%);
 }
 
 /* Tailwind v4 tira o cursor de mão dos botões; devolve em tudo que é clicável. */
