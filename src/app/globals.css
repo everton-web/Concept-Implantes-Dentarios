@@ -166,9 +166,10 @@ body {
   }
 }
 
-/* Fachada no Hero: some à esquerda (lado do texto) e embaixo (térreo). */
+/* Fachada no Hero: some à esquerda (lado do texto) e embaixo (térreo).
+   Sem `filter` aqui: filtro + máscara faz o Chrome desenhar uma linha fina
+   na borda da camada; o escurecimento já vem na própria imagem. */
 .hero-photo {
-  filter: brightness(0.85);
   -webkit-mask-image:
     linear-gradient(to right, transparent 3%, #000 38%),
     linear-gradient(to bottom, #000 55%, transparent 92%);

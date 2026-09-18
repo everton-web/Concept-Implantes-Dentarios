@@ -17,16 +17,18 @@ export default function Hero({ onOpenForm }: { onOpenForm: () => void }) {
           O térreo (farmácia) já vem desfocado e escurecido na própria imagem. */}
       <div
         style={{ animationDelay: "0.3s" }}
-        className="animate-fade hero-photo hidden lg:block absolute inset-y-0 right-0 left-[round(46%,1px)]"
+        className="animate-fade hidden lg:block absolute inset-y-0 right-0 left-[round(46%,1px)]"
       >
-        <Image
-          src="/marca/fachada.webp"
-          alt="Fachada da Concept Implantes Dentários no Centro de Camboriú"
-          fill
-          priority
-          sizes="54vw"
-          className="object-cover object-[0%_30%]"
-        />
+        <div className="hero-photo absolute inset-0">
+          <Image
+            src="/marca/fachada.webp"
+            alt="Fachada da Concept Implantes Dentários no Centro de Camboriú"
+            fill
+            priority
+            sizes="54vw"
+            className="object-cover object-[0%_30%]"
+          />
+        </div>
       </div>
 
       <div className="relative mx-auto max-w-[1200px] w-full px-6 md:px-10 lg:px-16 pt-20 pb-24 lg:pt-24 lg:pb-20">
