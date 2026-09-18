@@ -9,7 +9,7 @@ const STATS = [
 
 export default function About() {
   return (
-    <section id="sobre" className="relative pb-[88px] lg:pb-[140px] bg-ink-950">
+    <section id="sobre" className="relative -mt-px pb-[88px] lg:pb-[140px] bg-ink-950">
       <div className="mx-auto max-w-[1200px] px-6 md:px-10 lg:px-16">
         <div className="lg:grid lg:grid-cols-12 lg:gap-16 lg:items-center">
           <AnimatedSection className="lg:col-span-5 mb-14 lg:mb-0">

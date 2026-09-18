@@ -8,7 +8,7 @@ export default function Brand() {
   const words = PHRASE.split(" ");
 
   return (
-    <section className="relative py-[120px] lg:py-[200px] bg-ink-950">
+    <section className="relative pt-[120px] pb-[88px] lg:pt-[200px] lg:pb-[140px] bg-ink-950">
       <div className="mx-auto max-w-[1200px] px-6 md:px-10 lg:px-16">
         <blockquote className="scrub-quote max-w-[1040px] mx-auto text-center text-[clamp(2.5rem,6.4vw,5.5rem)] leading-[1.04] tracking-[-0.035em] font-medium text-balance mb-12">
           {words.map((word, i) => (

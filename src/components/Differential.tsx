@@ -21,7 +21,7 @@ const PILLARS = [
 
 export default function Differential() {
   return (
-    <section id="diferenciais" className="relative bg-ink-950 overflow-hidden">
+    <section id="diferenciais" className="relative -mt-px bg-ink-950 overflow-hidden">
       {/* No mobile a foto vem antes do texto; no desktop vira o fundo da seção. */}
       <div className="relative aspect-[4/5] sm:aspect-[16/10] lg:absolute lg:inset-0 lg:aspect-auto">
         <Image
