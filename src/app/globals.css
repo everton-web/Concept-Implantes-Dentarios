@@ -156,12 +156,12 @@ body {
 @media (min-width: 1024px) {
   .photo-fade {
     -webkit-mask-image:
-      linear-gradient(to right, transparent, #000 42%),
-      linear-gradient(to bottom, transparent, #000 14%, #000 86%, transparent);
+      linear-gradient(to right, transparent 3%, #000 45%),
+      linear-gradient(to bottom, transparent 2%, #000 16%, #000 86%, transparent 98%);
     -webkit-mask-composite: source-in;
     mask-image:
-      linear-gradient(to right, transparent, #000 42%),
-      linear-gradient(to bottom, transparent, #000 14%, #000 86%, transparent);
+      linear-gradient(to right, transparent 3%, #000 45%),
+      linear-gradient(to bottom, transparent 2%, #000 16%, #000 86%, transparent 98%);
     mask-composite: intersect;
   }
 }
