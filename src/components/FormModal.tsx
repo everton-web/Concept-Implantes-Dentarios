@@ -7,6 +7,31 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const WHATSAPP_NUMBER = "554791208176";
 
+/** Apps Script que grava cada lead na planilha (colunas: data, nome, telefone). */
+const LEADS_WEBHOOK =
+  "https://script.google.com/macros/s/AKfycbzcpDfqd7qVBDoWt8aXo3U_p9901OinKlAKfIvuO0hLAO-ghVeTDfYFb5OidKinoFJm/exec";
+
+/**
+ * Envia o lead para a planilha. O Apps Script não libera CORS, então a
+ * resposta é opaca (`no-cors`); o corpo form-urlencoded chega em `e.parameter`.
+ * Nunca bloqueia o contato: se a planilha falhar ou demorar, segue para o WhatsApp.
+ */
+async function sendLead(nome: string, telefone: string) {
+  try {
+    await Promise.race([
+      fetch(LEADS_WEBHOOK, {
+        method: "POST",
+        mode: "no-cors",
+        keepalive: true,
+        body: new URLSearchParams({ Nome: nome, Telefone: telefone }),
+      }),
+      new Promise((resolve) => setTimeout(resolve, 5000)),
+    ]);
+  } catch {
+    // Falha de rede: o lead ainda chega pelo WhatsApp.
+  }
+}
+
 function maskPhone(value: string) {
   const digits = value.replace(/\D/g, "").slice(0, 11);
   if (digits.length <= 2) return digits;
@@ -53,8 +78,7 @@ export default function FormModal({ isOpen, onClose }: Props) {
 
     setStatus("sending");
 
-    // TODO: enviar para o Google Sheets via endpoint seguro antes de redirecionar.
-    await new Promise((r) => setTimeout(r, 900));
+    await sendLead(form.name.trim(), form.phone);
 
     setStatus("sent");
 
