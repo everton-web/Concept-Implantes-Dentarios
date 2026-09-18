@@ -24,21 +24,14 @@ export default function Differential() {
     <section id="diferenciais" className="relative -mt-px bg-ink-950 overflow-hidden">
       {/* Foto vertical: no mobile vem antes do texto; no desktop ocupa a metade
           direita e se dissolve no fundo escuro, deixando a Dra. Simone livre. */}
-      <div className="relative aspect-[4/5] sm:aspect-[4/3] lg:absolute lg:inset-y-0 lg:right-0 lg:w-[58%] lg:aspect-auto">
+      {/* A máscara dissolve a própria foto no fundo, sem emenda visível. */}
+      <div className="photo-fade relative aspect-[4/5] sm:aspect-[4/3] lg:absolute lg:inset-y-0 lg:right-0 lg:w-[58%] lg:aspect-auto">
         <Image
           src="/marca/dra-simone-consultorio.webp"
           alt="Dra. Simone em atendimento no consultório da Concept"
           fill
           sizes="(max-width: 1024px) 100vw, 58vw"
           className="object-cover object-[50%_18%]"
-        />
-        <div
-          aria-hidden
-          className="lg:hidden absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-ink-950 to-transparent"
-        />
-        <div
-          aria-hidden
-          className="hidden lg:block absolute inset-y-0 left-0 w-[45%] bg-gradient-to-r from-ink-950 via-ink-950/70 to-transparent"
         />
       </div>
 
