@@ -1,21 +1,30 @@
 import AnimatedSection from "./AnimatedSection";
 
+const PHRASE = "Um novo sorriso começa com um novo jeito de cuidar.";
+/** A partir desta palavra o texto acende em dourado. */
+const HIGHLIGHT_FROM = 5;
+
 export default function Brand() {
+  const words = PHRASE.split(" ");
+
   return (
-    <section className="relative py-[88px] lg:py-[140px] bg-ink-950">
+    <section className="relative py-[120px] lg:py-[200px] bg-ink-950">
       <div className="mx-auto max-w-[1200px] px-6 md:px-10 lg:px-16">
-        <AnimatedSection className="max-w-[720px] mx-auto text-center">
-          <p className="text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-gold-400 mb-8">
-            Nossa filosofia
-          </p>
+        <blockquote className="scrub-quote max-w-[1040px] mx-auto text-center text-[clamp(2.5rem,6.4vw,5.5rem)] leading-[1.04] tracking-[-0.035em] font-medium text-balance mb-12">
+          {words.map((word, i) => (
+            <span
+              key={i}
+              className={`scrub-word ${i >= HIGHLIGHT_FROM ? "text-gold-300" : "text-white"}`}
+              style={{ "--i": i, "--n": words.length } as React.CSSProperties}
+            >
+              {word}
+              {i < words.length - 1 && " "}
+            </span>
+          ))}
+        </blockquote>
 
-          <blockquote className="text-[clamp(1.75rem,3.4vw,3rem)] leading-[1.18] tracking-[-0.02em] font-medium text-white text-balance mb-8">
-            <span aria-hidden className="text-gold-300/60">&ldquo;</span>
-            Um novo sorriso começa com um novo jeito de cuidar.
-            <span aria-hidden className="text-gold-300/60">&rdquo;</span>
-          </blockquote>
-
-          <p className="text-[1.0625rem] leading-[1.7] text-ink-400 max-w-[560px] mx-auto">
+        <AnimatedSection>
+          <p className="text-[1.0625rem] leading-[1.7] text-ink-400 max-w-[560px] mx-auto text-center">
             Estrutura completa, tecnologia de ponta e a escuta atenta que guia
             cada atendimento na Concept Implantes Dentários.
           </p>

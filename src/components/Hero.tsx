@@ -1,6 +1,7 @@
 "use client";
 
-import { ArrowUpRight } from "lucide-react";
+import Image from "next/image";
+import WhatsAppIcon from "./WhatsAppIcon";
 
 const BADGES = ["CRO-SC 19661", "7+ anos de dedicação", "Centro de Camboriú - SC"];
 
@@ -12,8 +13,18 @@ export default function Hero({ onOpenForm }: { onOpenForm: () => void }) {
         className="animate-fade absolute top-[-20%] right-[-10%] w-[60vw] h-[60vw] max-w-[760px] max-h-[760px] rounded-full bg-[radial-gradient(circle,rgba(252,219,159,0.10),transparent_65%)] blur-2xl"
       />
 
-      <div className="relative mx-auto max-w-[1200px] w-full px-6 md:px-10 lg:px-16 pt-[120px] pb-24 lg:py-0">
+      <div className="relative mx-auto max-w-[1200px] w-full px-6 md:px-10 lg:px-16 pt-[104px] pb-24 lg:pt-[120px] lg:pb-20">
         <div className="max-w-[760px]">
+          <Image
+            src="/marca/logo-concept.png"
+            alt="Concept Implantes Dentários"
+            width={391}
+            height={180}
+            priority
+            style={{ animationDelay: "0.05s" }}
+            className="animate-rise h-[88px] sm:h-[112px] lg:h-[128px] w-auto mb-10"
+          />
+
           <div
             style={{ animationDelay: "0.1s" }}
             className="animate-rise inline-flex items-center gap-2.5 mb-8 px-3.5 py-1.5 rounded-full border border-white/[0.12] bg-white/[0.04]"
@@ -54,11 +65,7 @@ export default function Hero({ onOpenForm }: { onOpenForm: () => void }) {
               className="group inline-flex items-center justify-center gap-2 h-[54px] px-8 bg-gold-300 text-ink-950 font-semibold rounded-[12px] hover:bg-gold-200 transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-gold-500"
             >
               Agende sua consulta
-              <ArrowUpRight
-                size={17}
-                strokeWidth={2}
-                className="transition-transform duration-200 group-hover:translate-x-[3px] group-hover:-translate-y-[3px]"
-              />
+              <WhatsAppIcon size={18} />
             </button>
           </div>
 

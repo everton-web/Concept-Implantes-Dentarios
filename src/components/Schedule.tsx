@@ -1,6 +1,7 @@
 "use client";
 
-import { ArrowUpRight, Check } from "lucide-react";
+import { Check } from "lucide-react";
+import WhatsAppIcon from "./WhatsAppIcon";
 import AnimatedSection from "./AnimatedSection";
 
 const BENEFITS = [
@@ -52,11 +53,7 @@ export default function Schedule({ onOpenForm }: { onOpenForm: () => void }) {
                   className="group w-full inline-flex items-center justify-center gap-2 h-[56px] px-8 bg-ink-950 text-white font-semibold rounded-[12px] hover:bg-ink-800 transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-gold-500"
                 >
                   Agende sua consulta
-                  <ArrowUpRight
-                    size={17}
-                    strokeWidth={2}
-                    className="transition-transform duration-200 group-hover:translate-x-[3px] group-hover:-translate-y-[3px]"
-                  />
+                  <WhatsAppIcon size={18} />
                 </button>
                 <p className="mt-4 text-[0.75rem] leading-[1.5] text-ink-500 text-center">
                   Seus dados são usados apenas para o contato sobre o

@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { X, Loader2, ArrowUpRight } from "lucide-react";
+import { X, Loader2 } from "lucide-react";
+import WhatsAppIcon from "./WhatsAppIcon";
 import { motion, AnimatePresence } from "framer-motion";
 
 const WHATSAPP_NUMBER = "554791208176";
@@ -187,11 +188,7 @@ export default function FormModal({ isOpen, onClose }: Props) {
                   ) : (
                     <>
                       Agende sua consulta
-                      <ArrowUpRight
-                        size={16}
-                        strokeWidth={2}
-                        className="transition-transform duration-150 group-hover:translate-x-[2px] group-hover:-translate-y-[2px]"
-                      />
+                      <WhatsAppIcon size={17} />
                     </>
                   )}
                 </button>

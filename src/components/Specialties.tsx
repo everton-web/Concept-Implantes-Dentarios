@@ -1,7 +1,7 @@
 "use client";
 
+import WhatsAppIcon from "./WhatsAppIcon";
 import {
-  ArrowUpRight,
   Sparkles,
   Layers,
   Gem,
@@ -116,11 +116,7 @@ export default function Specialties({ onOpenForm }: { onOpenForm: () => void }) 
                   className="group inline-flex items-center justify-center gap-2 h-[52px] px-7 bg-gold-300 text-ink-950 font-semibold rounded-[12px] hover:bg-gold-200 transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-gold-500"
                 >
                   Agende sua consulta
-                  <ArrowUpRight
-                    size={16}
-                    strokeWidth={2}
-                    className="transition-transform duration-200 group-hover:translate-x-[3px] group-hover:-translate-y-[3px]"
-                  />
+                  <WhatsAppIcon size={17} />
                 </button>
               </div>
             </div>
