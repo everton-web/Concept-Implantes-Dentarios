@@ -8,15 +8,16 @@ import { motion, AnimatePresence } from "framer-motion";
 const WHATSAPP_NUMBER = "554791208176";
 
 /** Apps Script que grava cada lead na planilha (colunas: data, nome, telefone).
- *  Usado só como reserva, se a rota /api/lead do próprio site falhar. */
+ *  Usado só como reserva, se a rota /api/lead não existir na hospedagem. */
 const LEADS_WEBHOOK =
   "https://script.google.com/macros/s/AKfycbzcpDfqd7qVBDoWt8aXo3U_p9901OinKlAKfIvuO0hLAO-ghVeTDfYFb5OidKinoFJm/exec";
 
 /**
- * Envia o lead pela rota do site, que filtra robôs (campo-isca, tempo de
- * preenchimento, limite por IP) antes de gravar na planilha. Se a rota
- * estiver fora do ar, grava direto no Apps Script. Nunca bloqueia o
- * contato: com erro ou demora, segue para o WhatsApp.
+ * Envia o lead pela rota do site, que filtra robôs e grava na planilha.
+ * A reserva (gravar direto no Apps Script) só entra quando a rota não
+ * chegou a ser atendida: erro de rede ou rota inexistente (404/405). Se a
+ * rota respondeu, ela já tentou gravar; tentar de novo duplicaria a linha.
+ * `keepalive` garante o envio mesmo com a pessoa já indo para o WhatsApp.
  */
 async function sendLead(nome: string, telefone: string, empresa: string, inicio: number) {
   const direto = () =>
@@ -25,24 +26,19 @@ async function sendLead(nome: string, telefone: string, empresa: string, inicio:
       mode: "no-cors",
       keepalive: true,
       body: new URLSearchParams({ Nome: nome, Telefone: telefone }),
+    }).catch(() => {});
+
+  try {
+    const r = await fetch("/api/lead", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      keepalive: true,
+      body: JSON.stringify({ nome, telefone, empresa, inicio }),
     });
-
-  const envio = (async () => {
-    try {
-      const r = await fetch("/api/lead", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        keepalive: true,
-        body: JSON.stringify({ nome, telefone, empresa, inicio }),
-      });
-      // 5xx: rota ou planilha indisponível; tenta o caminho direto.
-      if (r.status >= 500) await direto();
-    } catch {
-      await direto().catch(() => {});
-    }
-  })();
-
-  await Promise.race([envio, new Promise((resolve) => setTimeout(resolve, 5000))]);
+    if (r.status === 404 || r.status === 405) await direto();
+  } catch {
+    await direto();
+  }
 }
 
 function maskPhone(value: string) {
@@ -93,16 +89,29 @@ export default function FormModal({ isOpen, onClose }: Props) {
     return e;
   }
 
-  async function handleSubmit(e: React.FormEvent) {
+  // Trava contra duplo envio (duplo clique, Enter repetido).
+  const enviando = useRef(false);
+
+  function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (enviando.current) return;
     const v = validate();
     setErrors(v);
     if (Object.keys(v).length > 0) return;
+    enviando.current = true;
 
-    setStatus("sending");
+    const text = encodeURIComponent(
+      `Olá! Sou ${nomeCompleto} e gostaria de agendar uma consulta.`
+    );
+    const whatsapp = `https://wa.me/${WHATSAPP_NUMBER}?text=${text}`;
 
-    // Na planilha, nome e sobrenome vão juntos numa coluna só.
-    await sendLead(nomeCompleto, form.phone, isca, abertoEm.current);
+    // O WhatsApp abre JÁ, ainda dentro do clique: qualquer espera antes
+    // faria o navegador (sobretudo o Safari) bloquear a nova aba.
+    const aba = window.open(whatsapp, "_blank");
+
+    // Na planilha, nome e sobrenome vão juntos numa coluna só. O envio
+    // segue em segundo plano (keepalive) enquanto a pessoa vai ao WhatsApp.
+    const envio = sendLead(nomeCompleto, form.phone, isca, abertoEm.current);
 
     // Evento para o GTM (conversão no Google Ads / Analytics). Sem dados
     // pessoais: só o nome do evento e a origem.
@@ -112,10 +121,13 @@ export default function FormModal({ isOpen, onClose }: Props) {
 
     setStatus("sent");
 
-    const text = encodeURIComponent(
-      `Olá! Sou ${nomeCompleto} e gostaria de agendar uma consulta.`
-    );
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${text}`, "_blank");
+    // Nova aba bloqueada mesmo assim: leva esta aba para o WhatsApp depois
+    // que o lead sair (no máximo 2,5 s de espera).
+    if (!aba) {
+      Promise.race([envio, new Promise((r) => setTimeout(r, 2500))]).then(() => {
+        window.location.href = whatsapp;
+      });
+    }
   }
 
   function handleClose() {
@@ -125,6 +137,7 @@ export default function FormModal({ isOpen, onClose }: Props) {
       setStatus("idle");
       setErrors({});
       setIsca("");
+      enviando.current = false;
     }, 300);
   }
 

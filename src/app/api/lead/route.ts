@@ -97,15 +97,22 @@ export async function POST(request: Request) {
     return erro(422, "dados");
   }
 
+  // Uma única tentativa. O Apps Script grava ao receber o POST e só depois
+  // redireciona; erro ou demora na resposta NÃO significa que não gravou.
+  // Por isso a rota nunca pede nova tentativa ao navegador (evita linhas
+  // duplicadas); falhas ficam só no log do servidor.
   try {
     const resposta = await fetch(LEADS_WEBHOOK, {
       method: "POST",
       body: new URLSearchParams({ Nome: nome, Telefone: telefone }),
-      signal: AbortSignal.timeout(8000),
+      redirect: "manual",
+      signal: AbortSignal.timeout(15000),
     });
-    if (resposta.status >= 400) return erro(502, "planilha");
-  } catch {
-    return erro(502, "planilha");
+    if (resposta.status >= 400) {
+      console.error("[lead] Apps Script respondeu", resposta.status);
+    }
+  } catch (e) {
+    console.error("[lead] falha ao falar com o Apps Script", e);
   }
 
   return ok();
