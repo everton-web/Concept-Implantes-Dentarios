@@ -185,12 +185,30 @@ body {
   to { transform: translateY(0); }
 }
 
+/* Símbolo sobre o mosaico: entra devagar e flutua. */
+@keyframes symbolIn {
+  from { opacity: 0; transform: translateY(12px) scale(0.96); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes symbolFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.hero-symbol {
+  animation:
+    symbolIn 1.8s cubic-bezier(0.22, 1, 0.36, 1) 0.6s backwards,
+    symbolFloat 9s ease-in-out 2.4s infinite;
+}
+
 .smile-col-up { animation: smileUp linear infinite; }
 .smile-col-down { animation: smileDown linear infinite; }
 
 @media (prefers-reduced-motion: reduce) {
   .smile-col-up,
-  .smile-col-down { animation: none; }
+  .smile-col-down,
+  .hero-symbol { animation: none; }
 }
 
 /* Quedas longas e em curva (vários pontos), para a borda nunca parecer um

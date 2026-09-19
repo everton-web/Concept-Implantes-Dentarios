@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import SmileMosaic from "./SmileMosaic";
 import WhatsAppIcon from "./WhatsAppIcon";
 import SpecialtyTicker from "./SpecialtyTicker";
@@ -21,10 +22,38 @@ export default function Hero({ onOpenForm }: { onOpenForm: () => void }) {
         className="animate-fade relative h-[340px] sm:h-[440px] lg:absolute lg:inset-y-0 lg:right-0 lg:h-auto lg:w-[58vw]"
       >
         <SmileMosaic />
+
+        {/* Símbolo da Concept sobre as fotos, como uma marca d'água dourada:
+            translúcido, com um halo difuso, flutuando devagar. */}
+        <div
+          aria-hidden
+          className="absolute left-1/2 top-[44%] lg:left-[60%] lg:top-1/2 -translate-x-1/2 -translate-y-1/2 w-[58%] max-w-[240px] sm:max-w-[320px] lg:w-[46%] lg:max-w-[440px] pointer-events-none"
+        >
+          <div className="hero-symbol">
+            <Image
+              src="/marca/simbolo-concept.webp"
+              alt=""
+              width={520}
+              height={427}
+              priority
+              unoptimized
+              className="block w-full h-auto opacity-[0.45] mix-blend-screen drop-shadow-[0_0_28px_rgba(252,219,159,0.35)]"
+            />
+          </div>
+        </div>
       </div>
 
       <div className="relative mx-auto max-w-[1200px] w-full px-6 md:px-10 lg:px-16 -mt-16 sm:-mt-24 pb-14 lg:mt-0 lg:py-24">
         <div className="max-w-[560px]">
+          <Image
+            src="/marca/logo-concept.png"
+            alt="Concept Implantes Dentários"
+            width={391}
+            height={180}
+            priority
+            style={{ animationDelay: "0.02s" }}
+            className="animate-rise block h-[40px] sm:h-[48px] lg:h-[54px] w-auto mb-7"
+          />
           <div
             style={{ animationDelay: "0.05s" }}
             className="animate-rise inline-flex items-center gap-2.5 mb-8 px-3.5 py-1.5 rounded-full border border-white/[0.12] bg-ink-950/60 backdrop-blur-md"

@@ -86,31 +86,46 @@ export default function VideoDepoimentos() {
     });
   }, [ativo]);
 
-  function escolher(i: number) {
+  /** Sai da prévia muda: volta ao início e toca com som. */
+  function assistirComSom() {
+    const v = videoRef.current;
+    if (!v) return;
     setMudo(false);
     mudoRef.current = false;
-    if (videoRef.current) videoRef.current.muted = false;
-    if (i === ativo) {
-      const v = videoRef.current;
-      if (!v) return;
-      v.currentTime = 0;
-      v.muted = false;
-      v.play().catch(() => {});
-    } else {
-      setAtivo(i);
-    }
+    v.muted = false;
+    v.loop = false;
+    v.currentTime = 0;
+    v.play().catch(() => {});
   }
 
+  /** Play/pause. Na prévia muda, o primeiro toque já começa com som. */
   function alternarPlay() {
     const v = videoRef.current;
     if (!v) return;
-    if (v.paused) {
-      setMudo(false);
-      v.muted = false;
-      v.play().catch(() => {});
-    } else {
-      v.pause();
+    if (mudo) assistirComSom();
+    else if (v.paused) v.play().catch(() => {});
+    else v.pause();
+  }
+
+  function escolher(i: number) {
+    if (i === ativo) {
+      alternarPlay();
+      return;
     }
+    setMudo(false);
+    mudoRef.current = false;
+    if (videoRef.current) videoRef.current.muted = false;
+    setAtivo(i);
+  }
+
+  function alternarSom() {
+    const v = videoRef.current;
+    if (!v) return;
+    const novo = !mudo;
+    setMudo(novo);
+    mudoRef.current = novo;
+    v.muted = novo;
+    if (!novo && v.paused) v.play().catch(() => {});
   }
 
   function aoTerminar() {
@@ -231,31 +246,56 @@ export default function VideoDepoimentos() {
                   className="absolute top-[10px] left-1/2 -translate-x-1/2 h-[26px] w-[88px] rounded-full bg-black"
                 />
 
-                {/* Legenda e som, sobre um véu escuro suave na base. */}
-                <div className="absolute inset-x-0 bottom-0 pt-20 pb-5 px-5 bg-[linear-gradient(to_top,rgba(0,0,0,0.72),rgba(0,0,0,0.35)_45%,transparent)] pointer-events-none">
-                  <div className="flex items-end justify-between gap-3">
-                    <span>
-                      <span className="block text-[0.9375rem] font-medium text-white leading-snug">
-                        {video.titulo}
-                      </span>
-                      <span className="block text-[0.75rem] text-white/70">
-                        {video.descricao}
-                      </span>
+                {/* Botão central grande: aparece na prévia muda e quando o
+                    vídeo está pausado. Fácil de acertar com o polegar. */}
+                {(mudo || !tocando) && (
+                  <button
+                    onClick={alternarPlay}
+                    aria-label={mudo ? `Assistir com som: ${video.titulo}` : "Continuar vídeo"}
+                    className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/25 transition-colors hover:bg-black/15 focus-visible:outline-none group/play"
+                  >
+                    <span className="relative flex items-center justify-center w-[76px] h-[76px] rounded-full bg-gold-300 text-ink-950 shadow-[0_12px_40px_rgba(0,0,0,0.45)] transition-transform duration-200 group-hover/play:scale-105 group-active/play:scale-95 group-focus-visible/play:ring-4 group-focus-visible/play:ring-gold-300/40">
+                      <span aria-hidden className="absolute inset-0 rounded-full bg-gold-300/40 animate-ping [animation-duration:2.4s]" />
+                      <Play size={30} strokeWidth={2} fill="currentColor" className="relative ml-1" aria-hidden />
+                    </span>
+                    <span className="px-3 py-1 rounded-full bg-black/45 backdrop-blur-md text-[0.8125rem] font-medium text-white">
+                      {mudo ? "Assistir com som" : "Continuar"}
+                    </span>
+                  </button>
+                )}
+
+                {/* Base: legenda, progresso e controles de 44px. */}
+                <div className="absolute inset-x-0 bottom-0 pt-20 pb-4 px-4 bg-[linear-gradient(to_top,rgba(0,0,0,0.78),rgba(0,0,0,0.35)_45%,transparent)] pointer-events-none">
+                  <span className="block text-[0.9375rem] font-medium text-white leading-snug">
+                    {video.titulo}
+                  </span>
+                  <span className="block text-[0.75rem] text-white/70 mb-3">
+                    {video.descricao}
+                  </span>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={alternarPlay}
+                      aria-label={tocando && !mudo ? "Pausar" : "Reproduzir"}
+                      className="pointer-events-auto shrink-0 flex items-center justify-center w-11 h-11 rounded-full bg-white/15 backdrop-blur-md text-white hover:bg-white/25 active:scale-95 transition"
+                    >
+                      {tocando && !mudo ? (
+                        <Pause size={18} fill="currentColor" aria-hidden />
+                      ) : (
+                        <Play size={18} fill="currentColor" className="ml-0.5" aria-hidden />
+                      )}
+                    </button>
+                    <span aria-hidden className="relative flex-1 h-[3px] rounded-full bg-white/20 overflow-hidden">
+                      <span
+                        className="absolute inset-y-0 left-0 rounded-full bg-gold-300"
+                        style={{ width: `${progresso * 100}%` }}
+                      />
                     </span>
                     <button
-                      onClick={() => {
-                        const v = videoRef.current;
-                        const novo = !mudo;
-                        setMudo(novo);
-                        if (v) {
-                          v.muted = novo;
-                          if (!novo) v.play().catch(() => {});
-                        }
-                      }}
+                      onClick={alternarSom}
                       aria-label={mudo ? "Ativar som" : "Desativar som"}
-                      className="pointer-events-auto shrink-0 flex items-center justify-center w-10 h-10 rounded-full bg-white/15 backdrop-blur-md text-white hover:bg-white/25 transition-colors"
+                      className="pointer-events-auto shrink-0 flex items-center justify-center w-11 h-11 rounded-full bg-white/15 backdrop-blur-md text-white hover:bg-white/25 active:scale-95 transition"
                     >
-                      {mudo ? <VolumeX size={17} aria-hidden /> : <Volume2 size={17} aria-hidden />}
+                      {mudo ? <VolumeX size={18} aria-hidden /> : <Volume2 size={18} aria-hidden />}
                     </button>
                   </div>
                 </div>
