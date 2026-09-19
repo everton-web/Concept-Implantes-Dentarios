@@ -177,11 +177,11 @@ body {
 
 @keyframes smileUp {
   from { transform: translateY(0); }
-  to { transform: translateY(-50%); }
+  to { transform: translateY(-33.3333%); }
 }
 
 @keyframes smileDown {
-  from { transform: translateY(-50%); }
+  from { transform: translateY(-33.3333%); }
   to { transform: translateY(0); }
 }
 
