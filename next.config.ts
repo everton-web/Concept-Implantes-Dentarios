@@ -30,6 +30,18 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  // O endereço principal é sem www: quem chega pelo www é levado para ele
+  // com um redirecionamento permanente (301), sem duplicar a página no Google.
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.conceptimplantesdentarios.com.br" }],
+        destination: "https://conceptimplantesdentarios.com.br/:path*",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       { source: "/:path*", headers: securityHeaders },
