@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import SmileMosaic from "./SmileMosaic";
 import WhatsAppIcon from "./WhatsAppIcon";
 import SpecialtyTicker from "./SpecialtyTicker";
 import GoogleRating from "./GoogleRating";
@@ -14,26 +14,16 @@ const STATS = [
 export default function Hero({ onOpenForm }: { onOpenForm: () => void }) {
   return (
     <section className="relative min-h-[100svh] flex flex-col lg:justify-center bg-ink-950 overflow-hidden">
-      {/* Fachada tratada na própria imagem: contraste baixo, só a placa em
-          dourado, e quedas longas até o #101010 em todos os lados (a da
-          esquerda, lado do texto, é a mais longa). Sem máscara CSS: nenhuma
-          borda ou linha de emenda. No desktop fica à direita, centralizada na
-          altura; no mobile, no topo. */}
+      {/* Mosaico isométrico de sorrisos em movimento. No desktop ocupa a
+          metade direita; no mobile, o topo. */}
       <div
         style={{ animationDelay: "0.1s" }}
-        className="animate-hero-photo relative h-[210px] sm:h-[340px] lg:absolute lg:right-[-7vw] lg:top-[56%] lg:-translate-y-1/2 lg:h-auto lg:w-[62vw] lg:max-w-[1180px] lg:aspect-[1282/800]"
+        className="animate-fade relative h-[340px] sm:h-[440px] lg:absolute lg:inset-y-0 lg:right-0 lg:h-auto lg:w-[58vw]"
       >
-        <Image
-          src="/marca/fachada-hero.webp"
-          alt="Fachada da Concept Implantes Dentários, com a placa dourada da clínica"
-          fill
-          priority
-          unoptimized
-          className="object-cover object-[42%_28%] lg:object-center"
-        />
+        <SmileMosaic />
       </div>
 
-      <div className="relative mx-auto max-w-[1200px] w-full px-6 md:px-10 lg:px-16 -mt-14 sm:-mt-20 pb-14 lg:mt-0 lg:py-24">
+      <div className="relative mx-auto max-w-[1200px] w-full px-6 md:px-10 lg:px-16 -mt-16 sm:-mt-24 pb-14 lg:mt-0 lg:py-24">
         <div className="max-w-[560px]">
           <div
             style={{ animationDelay: "0.05s" }}
