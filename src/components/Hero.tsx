@@ -14,40 +14,32 @@ const STATS = [
 export default function Hero({ onOpenForm }: { onOpenForm: () => void }) {
   return (
     <section className="relative min-h-[100svh] flex flex-col bg-ink-950 overflow-hidden">
-      {/* Fachada em faixa de ponta a ponta (céu já estendido na própria foto,
-          sem esfumado nas laterais); só a base some no fundo escuro. */}
+      {/* Fachada tratada na própria imagem: dessaturada, esmaecida e com uma
+          queda longa (smootherstep) até o #101010, só a placa em dourado.
+          Sem máscara CSS, então não há linha de emenda. O texto começa sobre
+          a parte já esmaecida, unindo foto e conteúdo numa peça só. */}
       <div
         style={{ animationDelay: "0.1s" }}
-        className="animate-hero-photo facade-fade-y relative w-full h-[34svh] min-h-[220px] sm:h-[clamp(260px,30vw,420px)]"
+        className="animate-hero-photo absolute inset-x-0 top-0 h-[62svh] min-h-[360px] sm:h-auto sm:min-h-0 sm:aspect-[2000/545]"
       >
         <Image
-          src="/marca/fachada.webp"
+          src="/marca/fachada-hero.webp"
           alt="Fachada da Concept Implantes Dentários, com a placa dourada da clínica"
           fill
           priority
           unoptimized
-          className="object-cover object-[48%_40%]"
+          className="object-cover object-[48%_0%]"
         />
       </div>
 
-      <div className="relative flex-1 flex flex-col items-center text-center mx-auto max-w-[1200px] w-full px-6 md:px-10 lg:px-16 -mt-4 pb-12">
+      <div className="relative flex-1 flex flex-col items-center text-center mx-auto max-w-[1200px] w-full px-6 md:px-10 lg:px-16 pt-[max(33svh,230px)] sm:pt-[clamp(210px,17vw,330px)] pb-14">
         <div
           style={{ animationDelay: "0.05s" }}
-          className="animate-rise inline-flex items-center gap-2.5 mb-7 px-3.5 py-1.5 rounded-full border border-white/[0.14] bg-ink-950/70 backdrop-blur-md"
+          className="animate-rise inline-flex items-center gap-2.5 mb-8 px-3.5 py-1.5 rounded-full border border-white/[0.12] bg-ink-950/60 backdrop-blur-md"
         >
           <span className="w-1.5 h-1.5 rounded-full bg-gold-300" />
           <SpecialtyTicker />
         </div>
-
-        <Image
-          src="/marca/logo-concept.png"
-          alt="Concept Implantes Dentários"
-          width={391}
-          height={180}
-          priority
-          style={{ animationDelay: "0.1s" }}
-          className="animate-rise block h-[44px] sm:h-[52px] lg:h-[60px] w-auto mb-7"
-        />
 
         <h1
           style={{ animationDelay: "0.2s" }}

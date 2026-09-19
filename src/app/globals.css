@@ -168,12 +168,6 @@ body {
   }
 }
 
-/* Fachada no topo do Hero: só a base some no fundo, onde o texto começa. */
-.facade-fade-y {
-  -webkit-mask-image: linear-gradient(to bottom, #000 45%, rgba(0, 0, 0, 0.4) 75%, transparent 100%);
-  mask-image: linear-gradient(to bottom, #000 45%, rgba(0, 0, 0, 0.4) 75%, transparent 100%);
-}
-
 /* Motion das fotos. Sem suporte a scroll timelines (ou com movimento
    reduzido), tudo fica estático e visível. */
 @keyframes heroPhotoIn {
