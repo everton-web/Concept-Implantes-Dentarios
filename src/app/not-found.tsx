@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import SimboloConcept from "@/components/SimboloConcept";
+import SmileMosaic from "@/components/SmileMosaic";
 
 export const metadata: Metadata = {
   title: "Página não encontrada",
@@ -12,13 +12,18 @@ export const metadata: Metadata = {
 export default function NotFound() {
   return (
     <main className="relative flex-1 min-h-[100svh] flex items-center bg-ink-950 overflow-hidden">
-      {/* O mesmo símbolo gigante do Hero, em branco bem sutil, cortado. */}
+      {/* Mosaico de sorrisos do Hero ao fundo, bem esmaecido: opacidade
+          baixa e um véu radial que concentra o preto atrás do texto. */}
       <div aria-hidden className="absolute inset-0 pointer-events-none">
-        <SimboloConcept className="hero-symbol absolute text-white opacity-[0.045] w-[170%] -left-[30%] top-[8%] sm:w-[120%] sm:-left-[10%] lg:w-auto lg:h-[130%] lg:left-auto lg:-right-[12%] lg:-top-[12%]" />
+        <div className="absolute inset-0 opacity-[0.22] grayscale-[0.35]">
+          <SmileMosaic fundo />
+        </div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_55%_at_50%_50%,rgba(16,16,16,0.92)_0%,rgba(16,16,16,0.7)_45%,rgba(16,16,16,0.35)_80%,rgba(16,16,16,0.2)_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(16,16,16,0.85),transparent_22%,transparent_78%,rgba(16,16,16,0.85))]" />
       </div>
 
       <div className="relative mx-auto max-w-[1200px] w-full px-6 md:px-10 lg:px-16 py-20">
-        <div className="max-w-[560px]">
+        <div className="max-w-[600px] mx-auto flex flex-col items-center text-center">
           <Link href="/" aria-label="Concept Implantes Dentários, página inicial">
             <Image
               src="/marca/logo-concept.png"
@@ -26,7 +31,7 @@ export default function NotFound() {
               width={391}
               height={180}
               priority
-              className="block h-[40px] sm:h-[48px] w-auto mb-12"
+              className="block h-[44px] sm:h-[52px] w-auto mb-12"
             />
           </Link>
 
@@ -41,7 +46,7 @@ export default function NotFound() {
           </h1>
           <p
             style={{ animationDelay: "0.2s" }}
-            className="animate-rise text-[1.0625rem] leading-[1.7] text-ink-300 max-w-[44ch] mb-10"
+            className="animate-rise text-[1.0625rem] leading-[1.7] text-ink-300 max-w-[44ch] mx-auto mb-10"
           >
             O endereço pode ter mudado ou foi digitado com algum erro. Volte ao
             início para conhecer a Concept e agendar sua consulta.

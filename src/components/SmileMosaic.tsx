@@ -61,8 +61,12 @@ const ORDEM_INICIAL: Peca[][] = Array.from({ length: N_COLUNAS }, (_, c) =>
  * Mosaico isométrico de sorrisos: um plano deitado em 3D com 3 colunas que
  * deslizam na vertical, alternando o sentido. As bordas somem no #101010
  * por máscaras longas, uma por elemento.
+ *
+ * `fundo`: versão para preencher uma seção inteira (ex.: página 404), com o
+ * plano centralizado e sem as máscaras laterais do Hero; quem a usa aplica
+ * o esmaecimento por fora.
  */
-export default function SmileMosaic() {
+export default function SmileMosaic({ fundo = false }: { fundo?: boolean }) {
   const [sorteio, setSorteio] = useState<{ colunas: Peca[][]; fases: number[] } | null>(null);
 
   // O sorteio só pode acontecer no navegador (no servidor quebraria a
@@ -82,12 +86,16 @@ export default function SmileMosaic() {
 
   return (
     <div
-      className={`smile-fade-x absolute inset-0 transition-opacity duration-[1200ms] ease-out ${
+      className={`${fundo ? "" : "smile-fade-x"} absolute inset-0 transition-opacity duration-[1200ms] ease-out ${
         colunas ? "opacity-100" : "opacity-0"
       }`}
     >
-      <div className="smile-fade-y absolute inset-0 overflow-hidden">
-        <div className="smile-plane absolute left-[60%] top-[44%] flex gap-4 sm:gap-5">
+      <div className={`${fundo ? "" : "smile-fade-y"} absolute inset-0 overflow-hidden`}>
+        <div
+          className={`smile-plane absolute flex gap-4 sm:gap-5 ${
+            fundo ? "left-1/2 top-1/2" : "left-[60%] top-[44%]"
+          }`}
+        >
           {visiveis.map((coluna, c) => {
             const duracao = 150 + c * 20;
             return (

@@ -14,9 +14,14 @@ const LEADS_WEBHOOK =
 /** Menos que isso entre abrir o formulário e enviar: só um robô preenche. */
 const TEMPO_MINIMO_MS = 2500;
 
-/** Limite por IP (por instância do servidor; é uma barreira, não um cofre). */
+/**
+ * Limite por IP, contra rajadas automáticas. Folgado de propósito: a equipe
+ * testando do mesmo Wi-Fi ou várias pessoas numa mesma rede (clínica,
+ * empresa, 4G com IP compartilhado) não chegam perto. Robôs de verdade já
+ * caem antes, no campo-isca e no tempo mínimo.
+ */
 const JANELA_MS = 10 * 60 * 1000;
-const MAX_ENVIOS = 5;
+const MAX_ENVIOS = 30;
 const envios = new Map<string, number[]>();
 
 const UA_SUSPEITO =

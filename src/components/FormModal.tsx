@@ -100,6 +100,12 @@ export default function FormModal({ isOpen, onClose }: Props) {
 
     await sendLead(form.name.trim(), form.phone, isca, abertoEm.current);
 
+    // Evento para o GTM (conversão no Google Ads / Analytics). Sem dados
+    // pessoais: só o nome do evento e a origem.
+    const w = window as unknown as { dataLayer?: Record<string, unknown>[] };
+    w.dataLayer = w.dataLayer ?? [];
+    w.dataLayer.push({ event: "generate_lead", form_id: "agendamento" });
+
     setStatus("sent");
 
     const text = encodeURIComponent(
