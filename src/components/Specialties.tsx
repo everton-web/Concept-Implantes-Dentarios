@@ -127,7 +127,7 @@ export default function Specialties({ onOpenForm }: { onOpenForm: () => void }) 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {OTHERS.map((item, i) => (
             <AnimatedSection key={item.title} delay={(i % 4) * 0.06}>
-              <article className="group h-full p-6 rounded-[18px] bg-white/70 border border-ink-100/70 hover:border-ink-200 hover:bg-white transition-all duration-300 hover:shadow-[0_18px_50px_rgba(10,10,11,0.06)]">
+              <article className="group h-full p-6 rounded-[18px] bg-white/70 border border-ink-100/70 hover:border-ink-200 hover:bg-white transition-all duration-300 hover:shadow-[0_18px_50px_rgba(16,16,16,0.06)]">
                 <item.icon
                   size={22}
                   strokeWidth={1.75}
