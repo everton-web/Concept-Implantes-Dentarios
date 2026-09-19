@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Play, Pause, Volume2, VolumeX } from "lucide-react";
+import { Play, Pause, Volume2, VolumeX, ChevronLeft, ChevronRight } from "lucide-react";
 
 type Video = {
   slug: string;
@@ -128,6 +128,24 @@ export default function VideoDepoimentos() {
     if (!novo && v.paused) v.play().catch(() => {});
   }
 
+  /** Setas, pontinhos e deslizar (só no celular/tablet). */
+  function navegar(passo: number) {
+    escolher((ativo + passo + VIDEOS.length) % VIDEOS.length);
+  }
+
+  // Deslizar o dedo na tela do aparelho troca o vídeo. O toque que termina
+  // um deslize não conta como clique (não pausa/toca o vídeo).
+  const toqueInicio = useRef<{ x: number; y: number } | null>(null);
+  const deslizou = useRef(false);
+
+  function aoTocarTela(acao: () => void) {
+    if (deslizou.current) {
+      deslizou.current = false;
+      return;
+    }
+    acao();
+  }
+
   function aoTerminar() {
     // Com som, segue para o próximo depoimento; em prévia muda, fica em loop.
     if (!mudo) setAtivo((i) => (i + 1) % VIDEOS.length);
@@ -143,11 +161,18 @@ export default function VideoDepoimentos() {
         <h3 className="text-[clamp(1.625rem,2.8vw,2.25rem)] leading-[1.15] tracking-[-0.02em] font-medium text-white text-balance mb-4">
           Quem viveu a transformação conta como foi
         </h3>
-        <p className="text-[1rem] leading-[1.7] text-ink-400 mb-9 max-w-[46ch]">
-          Escolha um depoimento para assistir com som.
+        <p className="text-[1rem] leading-[1.7] text-ink-400 lg:mb-9 max-w-[46ch]">
+          <span className="lg:hidden">
+            Toque no play para assistir com som. Deslize para ver o próximo.
+          </span>
+          <span className="hidden lg:inline">
+            Escolha um depoimento para assistir com som.
+          </span>
         </p>
 
-        <ol className="border-t border-white/[0.1]">
+        {/* A lista é o controle no desktop; no celular quem controla é o
+            próprio aparelho. */}
+        <ol className="hidden lg:block border-t border-white/[0.1]">
           {VIDEOS.map((item, i) => {
             const selecionado = i === ativo;
             return (
@@ -202,8 +227,24 @@ export default function VideoDepoimentos() {
       </div>
 
       {/* iPhone */}
-      <div className="lg:col-span-6 order-1 lg:order-2 flex justify-center">
-        <div className="relative w-[272px] sm:w-[300px]">
+      <div className="lg:col-span-6 order-1 lg:order-2 flex flex-col items-center">
+        <div className="relative w-[256px] sm:w-[300px]">
+          {/* Setas (celular/tablet), fora do aparelho. */}
+          <button
+            onClick={() => navegar(-1)}
+            aria-label="Depoimento anterior"
+            className="lg:hidden absolute z-10 top-1/2 -translate-y-1/2 -left-12 sm:-left-16 flex items-center justify-center w-11 h-11 rounded-full border border-white/[0.14] bg-white/[0.04] text-white/80 active:scale-95 transition"
+          >
+            <ChevronLeft size={20} aria-hidden />
+          </button>
+          <button
+            onClick={() => navegar(1)}
+            aria-label="Próximo depoimento"
+            className="lg:hidden absolute z-10 top-1/2 -translate-y-1/2 -right-12 sm:-right-16 flex items-center justify-center w-11 h-11 rounded-full border border-white/[0.14] bg-white/[0.04] text-white/80 active:scale-95 transition"
+          >
+            <ChevronRight size={20} aria-hidden />
+          </button>
+
           {/* Brilho dourado bem difuso atrás do aparelho. */}
           <div
             aria-hidden
@@ -217,7 +258,25 @@ export default function VideoDepoimentos() {
             <span aria-hidden className="absolute -right-[3px] top-[27%] h-20 w-[3px] rounded-r bg-[#3a3731]" />
 
             <div className="relative h-full w-full rounded-[2.95rem] bg-black p-[9px]">
-              <div className="relative h-full w-full overflow-hidden rounded-[2.4rem] bg-ink-900">
+              <div
+                className="relative h-full w-full overflow-hidden rounded-[2.4rem] bg-ink-900"
+                onTouchStart={(e) => {
+                  const t = e.touches[0];
+                  toqueInicio.current = { x: t.clientX, y: t.clientY };
+                }}
+                onTouchEnd={(e) => {
+                  const inicio = toqueInicio.current;
+                  toqueInicio.current = null;
+                  if (!inicio) return;
+                  const t = e.changedTouches[0];
+                  const dx = t.clientX - inicio.x;
+                  const dy = t.clientY - inicio.y;
+                  if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+                    deslizou.current = true;
+                    navegar(dx < 0 ? 1 : -1);
+                  }
+                }}
+              >
                 <video
                   ref={videoRef}
                   muted={mudo}
@@ -232,7 +291,7 @@ export default function VideoDepoimentos() {
                     const v = e.currentTarget;
                     if (v.duration) setProgresso(v.currentTime / v.duration);
                   }}
-                  onClick={alternarPlay}
+                  onClick={() => aoTocarTela(alternarPlay)}
                   aria-label={`${video.titulo}. ${video.descricao}.`}
                   className="absolute inset-0 h-full w-full object-cover cursor-pointer"
                 >
@@ -250,7 +309,7 @@ export default function VideoDepoimentos() {
                     lista ao lado. Botão central: prévia muda ou vídeo pausado. */}
                 {(mudo || !tocando) && (
                   <button
-                    onClick={alternarPlay}
+                    onClick={() => aoTocarTela(alternarPlay)}
                     aria-label={mudo ? `Assistir com som: ${video.titulo}` : "Continuar vídeo"}
                     className="lg:hidden absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/25 transition-colors hover:bg-black/15 focus-visible:outline-none group/play"
                   >
@@ -264,15 +323,17 @@ export default function VideoDepoimentos() {
                   </button>
                 )}
 
-                {/* Base: legenda, progresso e controles de 44px. */}
+                {/* Base: legenda sempre; progresso e controles de 44px só
+                    enquanto o vídeo toca com som (pausou, volta o play grande). */}
                 <div className="lg:hidden absolute inset-x-0 bottom-0 pt-20 pb-4 px-4 bg-[linear-gradient(to_top,rgba(0,0,0,0.78),rgba(0,0,0,0.35)_45%,transparent)] pointer-events-none">
                   <span className="block text-[0.9375rem] font-medium text-white leading-snug">
                     {video.titulo}
                   </span>
-                  <span className="block text-[0.75rem] text-white/70 mb-3">
+                  <span className="block text-[0.75rem] text-white/70">
                     {video.descricao}
                   </span>
-                  <div className="flex items-center gap-2">
+                  {tocando && !mudo && (
+                  <div className="flex items-center gap-2 mt-3">
                     <button
                       onClick={alternarPlay}
                       aria-label={tocando && !mudo ? "Pausar" : "Reproduzir"}
@@ -298,10 +359,30 @@ export default function VideoDepoimentos() {
                       {mudo ? <VolumeX size={18} aria-hidden /> : <Volume2 size={18} aria-hidden />}
                     </button>
                   </div>
+                  )}
                 </div>
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Pontinhos (celular/tablet): qual depoimento está no aparelho. */}
+        <div className="lg:hidden flex items-center gap-1 mt-6">
+          {VIDEOS.map((item, i) => (
+            <button
+              key={item.slug}
+              onClick={() => escolher(i)}
+              aria-label={`Depoimento ${i + 1}: ${item.titulo}`}
+              aria-current={i === ativo}
+              className="flex items-center justify-center w-8 h-8"
+            >
+              <span
+                className={`block h-1.5 rounded-full transition-all duration-300 ${
+                  i === ativo ? "w-6 bg-gold-300" : "w-1.5 bg-white/30"
+                }`}
+              />
+            </button>
+          ))}
         </div>
       </div>
     </div>
