@@ -4,6 +4,8 @@ import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import WhatsAppIcon from "./WhatsAppIcon";
 import SpecialtyTicker from "./SpecialtyTicker";
+import BeforeAfter from "./BeforeAfter";
+import GoogleRating from "./GoogleRating";
 import { CASOS } from "@/data/casos";
 
 const STATS = [
@@ -14,29 +16,6 @@ const STATS = [
 
 const CASO_DESTAQUE = CASOS[0];
 
-/**
- * Pacientes reais depois do tratamento, alternando com fade. Os originais têm
- * 1080×1350: o quadro nunca passa de ~520px de largura, então mesmo em tela
- * retina a foto não é ampliada. Servidas sem nova compressão (unoptimized).
- */
-const PACIENTES = [
-  {
-    src: "/hero/paciente-1.webp",
-    alt: "Paciente sorrindo na cadeira, segurando o celular com a foto do sorriso antes do tratamento",
-  },
-  {
-    src: "/hero/paciente-2.webp",
-    alt: "Paciente sorrindo depois das facetas em porcelana",
-  },
-  {
-    src: "/hero/paciente-3.webp",
-    alt: "Sorriso de paciente depois das facetas",
-  },
-  {
-    src: "/hero/paciente-4.webp",
-    alt: "Paciente sorrindo de perfil no consultório",
-  },
-];
 
 export default function Hero({ onOpenForm }: { onOpenForm: () => void }) {
   return (
@@ -47,8 +26,10 @@ export default function Hero({ onOpenForm }: { onOpenForm: () => void }) {
       />
 
       <div className="relative flex-1 flex flex-col mx-auto max-w-[1200px] w-full px-6 md:px-10 lg:px-16 pt-16 pb-10 lg:pt-20 lg:pb-12">
-        <div className="flex-1 flex flex-col lg:flex-row lg:items-center gap-12 lg:gap-16">
-          <div className="lg:flex-1 max-w-[620px]">
+        {/* Título na largura toda; embaixo, texto + CTA à esquerda e o
+            antes/depois à direita. */}
+        <div className="flex-1 flex flex-col justify-center">
+          <div>
             <div
               style={{ animationDelay: "0.05s" }}
               className="animate-rise inline-flex items-center gap-2.5 mb-7 px-3.5 py-1.5 rounded-full border border-white/[0.12] bg-ink-950/60 backdrop-blur-sm"
@@ -69,7 +50,7 @@ export default function Hero({ onOpenForm }: { onOpenForm: () => void }) {
 
             <h1
               style={{ animationDelay: "0.2s" }}
-              className="animate-rise text-[clamp(2.5rem,4.3vw,4.125rem)] leading-[1.04] tracking-[-0.03em] font-medium text-white text-balance mb-6"
+              className="animate-rise max-w-[1000px] text-[clamp(2.5rem,5.2vw,4.75rem)] leading-[1.04] tracking-[-0.03em] font-medium text-white text-balance mb-10 lg:mb-12"
             >
               Tudo muda quando você volta a{" "}
               <span className="whitespace-nowrap">
@@ -83,7 +64,10 @@ export default function Hero({ onOpenForm }: { onOpenForm: () => void }) {
                 .
               </span>
             </h1>
+          </div>
 
+          <div className="flex flex-col lg:flex-row lg:items-center gap-12 lg:gap-16">
+          <div className="lg:flex-1 max-w-[520px]">
             <p
               style={{ animationDelay: "0.35s" }}
               className="animate-rise text-[clamp(1.0625rem,1.3vw,1.1875rem)] leading-[1.65] text-ink-300 max-w-[520px] mb-9"
@@ -102,34 +86,34 @@ export default function Hero({ onOpenForm }: { onOpenForm: () => void }) {
                 <WhatsAppIcon size={18} />
               </button>
             </div>
+
+            <div style={{ animationDelay: "0.55s" }} className="animate-rise mt-8">
+              <GoogleRating />
+            </div>
           </div>
 
-          {/* Quadro retrato com os pacientes. */}
+          {/* Caso real em antes/depois interativo. Imagens de 1080px: o quadro
+              para em 540px para não ampliar em tela retina. */}
           <figure
             style={{ animationDelay: "0.15s" }}
-            className="animate-hero-photo relative w-full max-w-[440px] lg:w-[min(38vw,500px)] lg:max-w-none mx-auto lg:mx-0 shrink-0"
+            className="animate-hero-photo w-full max-w-[540px] lg:w-[min(46vw,540px)] mx-auto lg:mx-0 lg:ml-auto shrink-0"
           >
-            <div className="relative aspect-[4/5] rounded-[28px] overflow-hidden bg-ink-900 ring-1 ring-gold-300/20 shadow-[0_40px_100px_-30px_rgba(0,0,0,0.8)]">
-              {PACIENTES.map((foto, i) => (
-                <Image
-                  key={foto.src}
-                  src={foto.src}
-                  alt={i === 0 ? foto.alt : ""}
-                  aria-hidden={i === 0 ? undefined : true}
-                  width={1080}
-                  height={1350}
-                  priority={i === 0}
-                  unoptimized
-                  className="hero-slide absolute inset-0 h-full w-full object-cover"
-                  style={{ "--slide": i } as React.CSSProperties}
-                />
-              ))}
-            </div>
-            <figcaption className="absolute left-4 bottom-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-ink-950/70 backdrop-blur-md text-[0.75rem] font-medium text-white">
-              <span className="w-1.5 h-1.5 rounded-full bg-gold-300" aria-hidden />
-              Pacientes reais da Concept
+            <BeforeAfter
+              antes="/hero/protocolo-antes.webp"
+              depois="/hero/protocolo-depois.webp"
+              alt="sorriso de paciente antes e depois da prótese protocolo"
+              width={1080}
+              height={490}
+              className="rounded-[24px] ring-1 ring-gold-300/20 shadow-[0_40px_100px_-30px_rgba(0,0,0,0.8)]"
+            />
+            <figcaption className="mt-4 flex items-center justify-between gap-4 text-[0.8125rem]">
+              <span className="text-ink-300">
+                <span className="font-semibold text-white">Caso real</span> · Prótese protocolo
+              </span>
+              <span className="text-ink-400">Arraste para comparar</span>
             </figcaption>
           </figure>
+          </div>
         </div>
 
         {/* Rodapé do Hero: números à esquerda, caso real à direita. */}

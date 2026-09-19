@@ -209,25 +209,6 @@ body {
   .animate-hero-photo { animation: none; }
 }
 
-/* Fotos dos pacientes no Hero: 4 fotos, 6s cada, fade de ~1,2s entre elas.
-   Sem animação (ou com movimento reduzido) fica só a primeira. */
-@keyframes heroSlide {
-  0% { opacity: 0; }
-  5% { opacity: 1; }
-  25% { opacity: 1; }
-  30% { opacity: 0; }
-  100% { opacity: 0; }
-}
-
-.hero-slide { opacity: 0; }
-.hero-slide:first-child { opacity: 1; }
-
-@media (prefers-reduced-motion: no-preference) {
-  .hero-slide {
-    animation: heroSlide 24s linear infinite both;
-    animation-delay: calc(var(--slide) * 6s - 1.2s);
-  }
-}
 
 /* Tailwind v4 tira o cursor de mão dos botões; devolve em tudo que é clicável. */
 @layer base {

@@ -5,6 +5,8 @@ import Image from "next/image";
 import { Quote, Info, X, ChevronLeft, ChevronRight, MousePointerClick } from "lucide-react";
 import AnimatedSection from "./AnimatedSection";
 import { CASOS, type Caso } from "@/data/casos";
+import { AVALIACOES_GOOGLE } from "@/data/google";
+import GoogleRating from "./GoogleRating";
 
 const TESTIMONIALS = [
   {
@@ -81,6 +83,34 @@ export default function Results() {
             </AnimatedSection>
           ))}
         </div>
+
+        {/* Avaliações reais do Google. */}
+        <AnimatedSection className="mb-20">
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-6">
+            <h3 className="text-[1.25rem] font-medium text-white">
+              O que dizem no Google
+            </h3>
+            <GoogleRating />
+          </div>
+          <ul className="grid md:grid-cols-3 gap-4">
+            {AVALIACOES_GOOGLE.map((review) => (
+              <li
+                key={review.texto}
+                className="flex flex-col justify-between gap-5 p-6 rounded-[18px] bg-white/[0.03] border border-white/[0.08]"
+              >
+                <p className="text-[1rem] leading-[1.6] text-white/90">
+                  &ldquo;{review.texto}&rdquo;
+                </p>
+                <p className="flex items-center justify-between text-[0.8125rem] text-ink-400">
+                  {review.autor}
+                  <span className="text-gold-300 tracking-[0.1em]" aria-label="5 estrelas">
+                    ★★★★★
+                  </span>
+                </p>
+              </li>
+            ))}
+          </ul>
+        </AnimatedSection>
 
         {temFotos && (
           <AnimatedSection>
