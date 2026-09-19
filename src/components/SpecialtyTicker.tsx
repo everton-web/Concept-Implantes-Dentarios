@@ -6,7 +6,7 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 const SPECIALTIES = [
   "Implantodontia",
   "Prótese protocolo",
-  "Facetas e lentes de contato",
+  "Facetas e lentes",
   "Harmonização orofacial",
   "Clareamento dental",
   "Endodontia",
@@ -52,7 +52,7 @@ export default function SpecialtyTicker() {
             </motion.span>
           </AnimatePresence>
         </span>
-        <span>em Camboriú</span>
+        <span className="whitespace-nowrap">em Camboriú</span>
       </span>
     </span>
   );
