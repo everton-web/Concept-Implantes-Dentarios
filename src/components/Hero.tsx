@@ -13,30 +13,28 @@ const STATS = [
 
 export default function Hero({ onOpenForm }: { onOpenForm: () => void }) {
   return (
-    <section className="relative min-h-[100svh] flex flex-col bg-ink-950 overflow-hidden">
-      {/* Fachada no topo, dissolvendo no fundo escuro. Máscaras em elementos
-          separados (duas combinadas geram uma linha fina no Chrome). A largura
-          para em 1600px para a foto de 1282px não ser ampliada demais. */}
+    <section className="relative min-h-[100svh] flex flex-col justify-center bg-ink-950 overflow-hidden">
+      {/* Fachada como fundo do Hero inteiro, bem escurecida para o texto
+          centralizado ler com folga. Embaixo ela some no preto da seção. */}
       <div
         aria-hidden
         style={{ animationDelay: "0.1s" }}
-        className="animate-hero-photo relative w-full max-w-[1600px] mx-auto h-[36svh] min-h-[240px] max-h-[420px]"
+        className="animate-hero-photo absolute inset-0"
       >
-        <div className="facade-fade-x absolute inset-0">
-          <div className="facade-fade-y absolute inset-0">
-            <Image
-              src="/marca/fachada.webp"
-              alt=""
-              fill
-              priority
-              unoptimized
-              className="object-cover object-[30%_40%]"
-            />
-          </div>
-        </div>
+        <Image
+          src="/marca/fachada.webp"
+          alt=""
+          fill
+          priority
+          unoptimized
+          className="object-cover object-[35%_18%]"
+        />
+        <div className="absolute inset-0 bg-ink-950/70" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_55%_at_50%_55%,rgba(10,10,11,0.55),transparent_75%)]" />
+        <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-b from-transparent to-ink-950" />
       </div>
 
-      <div className="relative flex-1 flex flex-col items-center text-center mx-auto max-w-[1200px] w-full px-6 md:px-10 lg:px-16 -mt-[7svh] pb-12">
+      <div className="relative flex flex-col items-center text-center mx-auto max-w-[1200px] w-full px-6 md:px-10 lg:px-16 py-24">
         <div
           style={{ animationDelay: "0.05s" }}
           className="animate-rise inline-flex items-center gap-2.5 mb-7 px-3.5 py-1.5 rounded-full border border-white/[0.14] bg-ink-950/70 backdrop-blur-md"
