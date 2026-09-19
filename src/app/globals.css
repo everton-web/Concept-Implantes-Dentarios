@@ -168,6 +168,20 @@ body {
   }
 }
 
+/* Fachada no topo do Hero: some embaixo, onde o texto começa, e nas
+   laterais em telas mais largas que a foto. */
+.facade-fade-y {
+  -webkit-mask-image: linear-gradient(to bottom, #000 35%, rgba(0, 0, 0, 0.35) 70%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 35%, rgba(0, 0, 0, 0.35) 70%, transparent 100%);
+}
+
+@media (min-width: 1282px) {
+  .facade-fade-x {
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 12%, #000 88%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0%, #000 12%, #000 88%, transparent 100%);
+  }
+}
+
 /* Motion das fotos. Sem suporte a scroll timelines (ou com movimento
    reduzido), tudo fica estático e visível. */
 @keyframes heroPhotoIn {

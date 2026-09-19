@@ -14,31 +14,29 @@ const STATS = [
 export default function Hero({ onOpenForm }: { onOpenForm: () => void }) {
   return (
     <section className="relative min-h-[100svh] flex flex-col bg-ink-950 overflow-hidden">
-      {/* Fachada como fundo do Hero inteiro, bem escurecida para o texto
-          centralizado ler com folga. Embaixo ela some no preto da seção. */}
+      {/* Fachada no topo, dissolvendo no fundo escuro. Máscaras em elementos
+          separados (duas combinadas geram uma linha fina no Chrome). A largura
+          para em 1600px para a foto de 1282px não ser ampliada demais. */}
       <div
         aria-hidden
         style={{ animationDelay: "0.1s" }}
-        className="animate-hero-photo absolute inset-0"
+        className="animate-hero-photo relative w-full max-w-[1600px] mx-auto h-[36svh] min-h-[240px] max-h-[420px]"
       >
-        <Image
-          src="/marca/fachada.webp"
-          alt="Fachada da Concept Implantes Dentários, com a placa dourada da clínica"
-          fill
-          priority
-          unoptimized
-          className="object-cover object-[16%_0%] sm:object-[35%_0%] lg:object-contain lg:object-top"
-        />
-        {/* A foto já vem tratada (P&B escuro, só o dourado da placa em cor,
-            vinheta radial). Aqui só um véu leve e sombra atrás do texto. */}
-        <div className="absolute inset-0 bg-ink-950/35" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_45%_at_50%_66%,rgba(16,16,16,0.75),transparent_80%)]" />
-        <div className="absolute inset-x-0 bottom-0 h-[45%] bg-gradient-to-b from-transparent via-ink-950/80 to-ink-950" />
+        <div className="facade-fade-x absolute inset-0">
+          <div className="facade-fade-y absolute inset-0">
+            <Image
+              src="/marca/fachada.webp"
+              alt=""
+              fill
+              priority
+              unoptimized
+              className="object-cover object-[30%_40%]"
+            />
+          </div>
+        </div>
       </div>
 
-      <div className="relative flex flex-col items-center text-center mx-auto max-w-[1200px] w-full px-6 md:px-10 lg:px-16 pt-[max(41svh,250px)] sm:pt-[max(34svh,220px)] pb-14">
-        {/* O topo fica livre para a placa dourada da fachada, que faz o papel
-            da logo aqui. */}
+      <div className="relative flex-1 flex flex-col items-center text-center mx-auto max-w-[1200px] w-full px-6 md:px-10 lg:px-16 -mt-[7svh] pb-12">
         <div
           style={{ animationDelay: "0.05s" }}
           className="animate-rise inline-flex items-center gap-2.5 mb-7 px-3.5 py-1.5 rounded-full border border-white/[0.14] bg-ink-950/70 backdrop-blur-md"
@@ -46,6 +44,16 @@ export default function Hero({ onOpenForm }: { onOpenForm: () => void }) {
           <span className="w-1.5 h-1.5 rounded-full bg-gold-300" />
           <SpecialtyTicker />
         </div>
+
+        <Image
+          src="/marca/logo-concept.png"
+          alt="Concept Implantes Dentários"
+          width={391}
+          height={180}
+          priority
+          style={{ animationDelay: "0.1s" }}
+          className="animate-rise block h-[44px] sm:h-[52px] lg:h-[60px] w-auto mb-7"
+        />
 
         <h1
           style={{ animationDelay: "0.2s" }}
