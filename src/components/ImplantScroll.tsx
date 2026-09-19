@@ -1,3 +1,8 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import type { ImplantScene } from "./implant3d/scene";
+
 const STEPS = [
   {
     title: "Pino de titânio",
@@ -16,27 +21,100 @@ const STEPS = [
   },
 ];
 
-/* Rosca do pino: linhas inclinadas ao longo do corpo cônico. */
-const THREADS = Array.from({ length: 9 }, (_, i) => {
-  const y = 346 + i * 19;
-  const half = 33 - i * 1.6;
-  return { x1: 200 - half, y1: y + 5, x2: 200 + half, y2: y - 5 };
-});
+const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
 
 /**
- * Implante montando ao rolar. A seção é alta e o palco fica fixo (sticky);
- * a view timeline da seção move cada peça até o lugar. Sem suporte a scroll
- * timelines, o implante aparece montado e os três passos ficam visíveis.
+ * Progresso da montagem a partir da posição da seção.
+ * Desktop: a seção é alta e o palco fica fixo; conta o tempo em que ele está parado.
+ * Mobile: a seção atravessa a tela normalmente.
  */
+function scrollProgress(section: HTMLElement, pinned: boolean) {
+  const rect = section.getBoundingClientRect();
+  const vh = window.innerHeight;
+  if (pinned) {
+    return clamp01(-rect.top / (rect.height - vh));
+  }
+  const cover = (vh - rect.top) / (vh + rect.height);
+  return clamp01((cover - 0.18) / (0.62 - 0.18));
+}
+
 export default function ImplantScroll() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    const stage = stageRef.current;
+    const canvas = canvasRef.current;
+    if (!section || !stage || !canvas) return;
+
+    let scene: ImplantScene | null = null;
+    let loading = false;
+    let frame = 0;
+    let disposed = false;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const desktop = window.matchMedia("(min-width: 1024px)");
+
+    // Só baixa o three.js quando a seção chega perto da tela.
+    const loadIfNear = async () => {
+      if (scene || loading) return;
+      const rect = section.getBoundingClientRect();
+      const margin = 600;
+      if (rect.top > window.innerHeight + margin || rect.bottom < -margin) return;
+      loading = true;
+      try {
+        const { createImplantScene } = await import("./implant3d/scene");
+        if (disposed) return;
+        scene = createImplantScene(canvas);
+        scene.resize(stage.clientWidth, stage.clientHeight);
+        draw();
+        setReady(true);
+      } catch {
+        // Sem WebGL: o texto continua completo e o painel fica vazio.
+      }
+    };
+
+    function draw() {
+      frame = 0;
+      if (!scene) return;
+      scene.setProgress(reduced ? 1 : scrollProgress(section!, desktop.matches));
+      scene.render();
+    }
+    const onScroll = () => {
+      loadIfNear();
+      if (scene && !frame) frame = requestAnimationFrame(draw);
+    };
+    const resize = () => {
+      if (!scene) return;
+      scene.resize(stage.clientWidth, stage.clientHeight);
+      onScroll();
+    };
+
+    loadIfNear();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    const ro = new ResizeObserver(resize);
+    ro.observe(stage);
+
+    return () => {
+      disposed = true;
+      ro.disconnect();
+      window.removeEventListener("scroll", onScroll);
+      if (frame) cancelAnimationFrame(frame);
+      scene?.dispose();
+    };
+  }, []);
+
   return (
     <section
+      ref={sectionRef}
       aria-labelledby="implante-title"
       className="implant-scroll relative -mt-px bg-ink-950 lg:h-[260vh]"
     >
       <div className="lg:sticky lg:top-0 lg:h-[100svh] flex items-center py-[88px] lg:py-0">
-        <div className="mx-auto max-w-[1200px] w-full px-6 md:px-10 lg:px-16 lg:grid lg:grid-cols-12 lg:gap-16 lg:items-center">
-          <div className="lg:col-span-6 mb-12 lg:mb-0">
+        <div className="mx-auto max-w-[1200px] w-full px-6 md:px-10 lg:px-16 lg:grid lg:grid-cols-12 lg:gap-14 lg:items-center">
+          <div className="lg:col-span-5 mb-12 lg:mb-0">
             <p className="text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-gold-400 mb-5">
               Como funciona o implante
             </p>
@@ -69,101 +147,18 @@ export default function ImplantScroll() {
             </ol>
           </div>
 
-          <div className="lg:col-span-6 flex justify-center">
-            <svg
-              viewBox="0 0 400 600"
-              className="w-full max-w-[360px] lg:max-w-[440px] h-auto overflow-visible"
+          <div className="lg:col-span-7">
+            <div
+              ref={stageRef}
               role="img"
-              aria-label="Ilustração de um implante dentário: pino no osso, conector e coroa"
+              aria-label="Implante dentário em 3D: pino de titânio, conector e coroa se encaixando entre dois dentes"
+              className="relative aspect-[4/5] sm:aspect-[5/5] lg:aspect-auto lg:h-[min(78svh,680px)] rounded-[28px] overflow-hidden bg-[radial-gradient(ellipse_85%_75%_at_55%_22%,#f6f7f9_0%,#cfd3da_50%,#7f8591_100%)]"
             >
-              <defs>
-                <linearGradient id="implant-gold" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stopColor="#FCDB9F" />
-                  <stop offset="100%" stopColor="#D4A843" />
-                </linearGradient>
-                <linearGradient id="implant-crown" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#FFFFFF" />
-                  <stop offset="100%" stopColor="#EDE6D8" />
-                </linearGradient>
-              </defs>
-
-              {/* Brilho atrás do dente montado. */}
-              <circle
-                className="implant-glow"
-                cx="200"
-                cy="250"
-                r="150"
-                fill="#FCDB9F"
-                opacity="0.08"
+              <canvas
+                ref={canvasRef}
+                className={`absolute inset-0 h-full w-full transition-opacity duration-700 ${ready ? "opacity-100" : "opacity-0"}`}
               />
-
-              {/* Pino de titânio */}
-              <g className="implant-part implant-screw">
-                <path
-                  d="M166 332 L234 332 L221 508 Q200 530 179 508 Z"
-                  fill="#2A2B30"
-                  stroke="url(#implant-gold)"
-                  strokeWidth="2.5"
-                  strokeLinejoin="round"
-                />
-                {THREADS.map((t, i) => (
-                  <line
-                    key={i}
-                    {...t}
-                    stroke="url(#implant-gold)"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                  />
-                ))}
-              </g>
-
-              {/* Osso e gengiva, na frente do pino para ele parecer instalado. */}
-              <path
-                d="M40 352 C110 336 150 346 200 346 C250 346 290 336 360 352 L360 580 L40 580 Z"
-                fill="#1E1F23"
-                fillOpacity="0.72"
-                stroke="#55565E"
-                strokeWidth="1.5"
-              />
-              <path
-                d="M40 352 C110 336 150 346 200 346 C250 346 290 336 360 352"
-                fill="none"
-                stroke="#E0BE6A"
-                strokeOpacity="0.55"
-                strokeWidth="2"
-              />
-
-              {/* Conector */}
-              <g className="implant-part implant-abutment">
-                <path
-                  d="M176 334 L224 334 L214 290 L186 290 Z"
-                  fill="#3D3E44"
-                  stroke="url(#implant-gold)"
-                  strokeWidth="2.5"
-                  strokeLinejoin="round"
-                />
-                <line x1="182" y1="312" x2="218" y2="312" stroke="url(#implant-gold)" strokeWidth="1.5" />
-              </g>
-
-              {/* Coroa */}
-              <g className="implant-part implant-crown">
-                <path
-                  d="M146 300 C136 258 134 214 158 192 C174 178 188 188 200 183 C212 188 226 178 242 192 C266 214 264 258 254 300 C236 314 164 314 146 300 Z"
-                  fill="url(#implant-crown)"
-                  stroke="url(#implant-gold)"
-                  strokeWidth="2.5"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M172 214 C178 204 188 202 194 206"
-                  fill="none"
-                  stroke="#FFFFFF"
-                  strokeWidth="4"
-                  strokeLinecap="round"
-                  opacity="0.9"
-                />
-              </g>
-            </svg>
+            </div>
           </div>
         </div>
       </div>

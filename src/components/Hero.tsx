@@ -14,26 +14,57 @@ const STATS = [
 
 const CASO_DESTAQUE = CASOS[0];
 
+/** Pacientes reais depois do tratamento; alternam com fade no lado da foto. */
+const PACIENTES = [
+  {
+    src: "/casos/faceta-2/2.webp",
+    alt: "Paciente sorrindo na cadeira, segurando o celular com a foto do sorriso antes do tratamento",
+    position: "object-[50%_30%]",
+  },
+  {
+    src: "/casos/faceta-2/6.webp",
+    alt: "Paciente sorrindo depois das facetas em porcelana",
+    position: "object-[50%_40%]",
+  },
+  {
+    src: "/casos/faceta-1/4.webp",
+    alt: "Sorriso de paciente depois das facetas",
+    position: "object-center",
+  },
+  {
+    src: "/casos/botox/6.webp",
+    alt: "Paciente sorrindo de perfil no consultório",
+    position: "object-[60%_35%]",
+  },
+];
+
 export default function Hero({ onOpenForm }: { onOpenForm: () => void }) {
   return (
     <section className="relative min-h-[100svh] flex flex-col bg-ink-950 overflow-hidden">
-      {/* Retrato da Dra. Simone: no topo no mobile; à direita no desktop,
-          dissolvendo no fundo escuro. Cada fade tem seu próprio elemento
-          (duas máscaras combinadas geram uma linha fina no Chrome). */}
+      {/* Pacientes: no topo no mobile; à direita no desktop, dissolvendo no
+          fundo escuro. Cada fade tem seu próprio elemento (duas máscaras
+          combinadas geram uma linha fina no Chrome). */}
       <div
         style={{ animationDelay: "0.15s" }}
         className="animate-hero-photo relative h-[58svh] lg:absolute lg:inset-y-0 lg:right-0 lg:left-[round(38%,1px)] lg:h-auto"
       >
         <div className="hero-photo absolute inset-0">
           <div className="hero-photo-y absolute inset-0">
-            <Image
-              src="/marca/dra-simone-hero.webp"
-              alt="Dra. Simone H., responsável técnica da Concept, sorrindo no consultório"
-              fill
-              priority
-              unoptimized
-              className="hero-drift object-cover object-[50%_18%]"
-            />
+            <div className="hero-drift absolute inset-0">
+              {PACIENTES.map((foto, i) => (
+                <Image
+                  key={foto.src}
+                  src={foto.src}
+                  alt={i === 0 ? foto.alt : ""}
+                  aria-hidden={i === 0 ? undefined : true}
+                  fill
+                  priority={i === 0}
+                  sizes="(max-width: 1024px) 100vw, 62vw"
+                  className={`hero-slide object-cover ${foto.position}`}
+                  style={{ "--slide": i, "--slides": PACIENTES.length } as React.CSSProperties}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </div>
