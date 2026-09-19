@@ -168,20 +168,6 @@ body {
   }
 }
 
-/* Sorriso no cartão de Implantes: some embaixo no mobile, à esquerda no
-   desktop (onde encontra o texto). */
-.smile-fade {
-  -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent);
-  mask-image: linear-gradient(to bottom, #000 55%, transparent);
-}
-
-@media (min-width: 1024px) {
-  .smile-fade {
-    -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 38%);
-    mask-image: linear-gradient(to right, transparent 0%, #000 38%);
-  }
-}
-
 /* Motion das fotos. Sem suporte a scroll timelines (ou com movimento
    reduzido), tudo fica estático e visível. */
 @keyframes heroPhotoIn {

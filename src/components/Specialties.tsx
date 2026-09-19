@@ -93,15 +93,17 @@ export default function Specialties({ onOpenForm }: { onOpenForm: () => void }) 
         {/* Destaque: implantes */}
         <AnimatedSection className="mb-6">
           <article className="relative overflow-hidden rounded-[28px] bg-ink-950">
-            {/* Sorriso real depois da prótese protocolo: no topo no mobile;
-                metade direita no desktop, dissolvendo no preto do cartão. */}
-            <figure className="smile-fade relative h-[220px] sm:h-[280px] lg:absolute lg:inset-y-0 lg:right-0 lg:h-auto lg:w-[52%]">
+            {/* Sorriso real depois da prótese protocolo. A vinheta que funde a
+                foto no preto do cartão já vem tratada na imagem (sem máscara
+                CSS). No mobile, enquadrada pela direita; no desktop, na metade
+                direita do cartão. */}
+            <figure className="relative h-[300px] sm:h-[340px] lg:absolute lg:inset-y-0 lg:right-0 lg:h-auto lg:w-[58%]">
               <Image
                 src="/hero/sorriso-protocolo.webp"
                 alt="Sorriso de paciente depois da prótese protocolo sobre implantes"
                 fill
                 unoptimized
-                className="object-cover object-center"
+                className="object-cover object-[100%_50%] lg:object-center"
               />
               <figcaption className="absolute right-4 top-4 px-3 py-1.5 rounded-full bg-ink-950/70 backdrop-blur-md text-[0.75rem] font-medium text-white">
                 Caso real · Prótese protocolo
