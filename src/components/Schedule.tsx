@@ -28,7 +28,8 @@ export default function Schedule({ onOpenForm }: { onOpenForm: () => void }) {
                   Primeiro passo
                 </p>
                 <h2 className="text-[clamp(2rem,3.4vw,3rem)] leading-[1.1] tracking-[-0.025em] font-medium text-ink-950 text-balance mb-6">
-                  Agende sua consulta sem compromisso
+                  Agende sua avaliação para um diagnóstico completo sobre sua
+                  saúde bucal
                 </h2>
                 <p className="text-[1.0625rem] leading-[1.7] text-ink-600 max-w-[52ch] mb-9">
                   Deixe seu nome e WhatsApp, nossa equipe retorna para encontrar
