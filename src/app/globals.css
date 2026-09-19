@@ -168,24 +168,6 @@ body {
   }
 }
 
-/* Retrato do Hero: no mobile some só embaixo (o texto sobe por cima);
-   no desktop some também à esquerda, do lado do texto. */
-.hero-photo-y {
-  -webkit-mask-image: linear-gradient(to bottom, #000 40%, transparent 96%);
-  mask-image: linear-gradient(to bottom, #000 40%, transparent 96%);
-}
-
-@media (min-width: 1024px) {
-  .hero-photo {
-    -webkit-mask-image: linear-gradient(to right, transparent 3%, #000 42%);
-    mask-image: linear-gradient(to right, transparent 3%, #000 42%);
-  }
-  .hero-photo-y {
-    -webkit-mask-image: linear-gradient(to bottom, #000 62%, transparent 99%);
-    mask-image: linear-gradient(to bottom, #000 62%, transparent 99%);
-  }
-}
-
 /* Motion das fotos. Sem suporte a scroll timelines (ou com movimento
    reduzido), tudo fica estático e visível. */
 @keyframes heroPhotoIn {
@@ -202,11 +184,6 @@ body {
   to { transform: translateY(6%) scale(1.14); }
 }
 
-@keyframes heroDrift {
-  from { transform: translateY(0) scale(1); }
-  to { transform: translateY(10%) scale(1.08); }
-}
-
 @keyframes imgReveal {
   from { clip-path: inset(12% 10% 12% 10% round var(--reveal-radius, 20px)); }
   to { clip-path: inset(0 0 0 0 round var(--reveal-radius, 20px)); }
@@ -218,12 +195,6 @@ body {
     .parallax-img {
       animation: parallax linear both;
       animation-timeline: view();
-    }
-    /* Foto do Hero se afasta devagar ao rolar para fora do topo. */
-    .hero-drift {
-      animation: heroDrift linear both;
-      animation-timeline: scroll(root);
-      animation-range: 0 100vh;
     }
     /* Retratos se abrem de um recorte menor até a moldura inteira. */
     .img-reveal {
