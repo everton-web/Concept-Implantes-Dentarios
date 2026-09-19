@@ -4,7 +4,6 @@ import Image from "next/image";
 import { Check } from "lucide-react";
 import WhatsAppIcon from "./WhatsAppIcon";
 import AnimatedSection from "./AnimatedSection";
-import SimboloConcept from "./SimboloConcept";
 
 const BENEFITS = [
   "Avaliação completa e transparente",
@@ -14,16 +13,10 @@ const BENEFITS = [
 
 export default function Schedule({ onOpenForm }: { onOpenForm: () => void }) {
   return (
-    <section id="agendar" className="relative overflow-hidden py-[88px] lg:py-[140px] bg-warm-white">
-      {/* O mesmo símbolo gigante do Hero, agora em dourado bem claro, por
-          trás do quadro e cortado pelas bordas da seção. */}
-      <div aria-hidden className="absolute inset-0 pointer-events-none">
-        <SimboloConcept className="absolute text-gold-500 opacity-[0.13] w-[170%] -left-[35%] top-[6%] sm:w-[125%] sm:-left-[12%] lg:w-auto lg:h-[125%] lg:left-1/2 lg:-translate-x-[46%] lg:-top-[8%]" />
-      </div>
-
-      <div className="relative mx-auto max-w-[1200px] px-6 md:px-10 lg:px-16">
+    <section id="agendar" className="relative py-[88px] lg:py-[140px] bg-warm-white">
+      <div className="mx-auto max-w-[1200px] px-6 md:px-10 lg:px-16">
         <AnimatedSection>
-          <div className="relative overflow-hidden rounded-[28px] bg-cream/85 backdrop-blur-[2px] border border-ink-100 p-8 sm:p-12 lg:p-16">
+          <div className="relative overflow-hidden rounded-[28px] bg-cream border border-ink-100 p-8 sm:p-12 lg:p-16">
             <div
               aria-hidden
               className="absolute -top-1/3 -right-1/4 w-[520px] h-[520px] rounded-full bg-gold-100/70 blur-3xl"
