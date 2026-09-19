@@ -46,7 +46,7 @@ export default function GoogleRating({ className = "" }: { className?: string })
       href={GOOGLE.url}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label={`Nota ${nota} de 5 no Google, com ${GOOGLE.totalAvaliacoes} avaliações. Ver no Google.`}
+      aria-label={`Nota ${nota} de 5 no Google. Ver no Google.`}
       className={`group inline-flex items-center gap-3.5 ${className}`}
     >
       <span className="flex -space-x-2.5">
@@ -67,8 +67,7 @@ export default function GoogleRating({ className = "" }: { className?: string })
       <span>
         <Stars nota={GOOGLE.nota} />
         <span className="block mt-1 text-[0.8125rem] text-ink-300 group-hover:text-white transition-colors">
-          <span className="font-semibold text-white">{nota}</span> no Google ·{" "}
-          {GOOGLE.totalAvaliacoes} avaliações
+          <span className="font-semibold text-white">{nota}</span> no Google
         </span>
       </span>
     </a>
