@@ -229,36 +229,6 @@ body {
   }
 }
 
-/* Passos do implante acendem junto com a peça 3D correspondente. As faixas
-   batem com RANGES em implant3d/scene.ts. Sem suporte, ficam todos acesos. */
-@keyframes stepOn {
-  from { opacity: 0.28; }
-  to { opacity: 1; }
-}
-
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .implant-scroll { view-timeline-name: --implant; }
-
-    .implant-step {
-      animation: stepOn linear both;
-      animation-timeline: --implant;
-    }
-
-    /* Mobile: a seção atravessa a tela normalmente. */
-    .implant-step-1 { animation-range: cover 18% cover 34%; }
-    .implant-step-2 { animation-range: cover 34% cover 48%; }
-    .implant-step-3 { animation-range: cover 48% cover 62%; }
-
-    /* Desktop: a seção é alta e o palco fica fixo. */
-    @media (min-width: 1024px) {
-      .implant-step-1 { animation-range: contain 0% contain 30%; }
-      .implant-step-2 { animation-range: contain 32% contain 58%; }
-      .implant-step-3 { animation-range: contain 60% contain 86%; }
-    }
-  }
-}
-
 /* Tailwind v4 tira o cursor de mão dos botões; devolve em tudo que é clicável. */
 @layer base {
   button:not(:disabled),
