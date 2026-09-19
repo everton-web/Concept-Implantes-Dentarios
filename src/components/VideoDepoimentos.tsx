@@ -13,6 +13,18 @@ type Video = {
 // Arquivos em /public/videos/<slug>.webm|.mp4 e <slug>-poster.webp.
 const VIDEOS: Video[] = [
   {
+    slug: "depoimento-nadia",
+    titulo: "Nadia",
+    descricao: "Implante zigomático",
+    duracao: "1:03",
+  },
+  {
+    slug: "depoimento-maria-sueli",
+    titulo: "Maria Sueli",
+    descricao: "Prótese protocolo superior",
+    duracao: "1:06",
+  },
+  {
     slug: "depoimento-entrega",
     titulo: "A reação no dia da entrega",
     descricao: "Reabilitação oral",
