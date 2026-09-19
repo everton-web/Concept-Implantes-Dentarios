@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import WhatsAppIcon from "./WhatsAppIcon";
 import {
   Sparkles,
@@ -91,34 +92,41 @@ export default function Specialties({ onOpenForm }: { onOpenForm: () => void }) 
 
         {/* Destaque: implantes */}
         <AnimatedSection className="mb-6">
-          <article className="relative overflow-hidden rounded-[28px] bg-ink-950 p-8 sm:p-12 lg:p-16">
-            <div
-              aria-hidden
-              className="absolute top-0 right-0 w-[420px] h-[420px] rounded-full bg-[radial-gradient(circle,rgba(252,219,159,0.09),transparent_65%)] blur-2xl"
-            />
-            <div className="relative lg:grid lg:grid-cols-12 lg:gap-12 items-end">
-              <div className="lg:col-span-8">
-                <p className="text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-gold-400 mb-5">
-                  Especialidade principal
-                </p>
-                <h3 className="text-[clamp(1.875rem,3.2vw,2.75rem)] leading-[1.1] tracking-[-0.025em] font-medium text-white mb-5">
-                  Implantes Dentários
-                </h3>
-                <p className="text-[1.0625rem] leading-[1.7] text-ink-300 max-w-[56ch]">
-                  Implantes unitários, múltiplos e prótese protocolo sobre
-                  implantes. Recupere a mastigação firme e a segurança ao
-                  sorrir, com planejamento digital e técnica de precisão.
-                </p>
-              </div>
-              <div className="lg:col-span-4 mt-8 lg:mt-0 lg:flex lg:justify-end">
-                <button
-                  onClick={onOpenForm}
-                  className="group inline-flex items-center justify-center gap-2 h-[52px] px-7 bg-gold-300 text-ink-950 font-semibold rounded-[12px] hover:bg-gold-200 transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-gold-500"
-                >
-                  Agende sua consulta
-                  <WhatsAppIcon size={17} />
-                </button>
-              </div>
+          <article className="relative overflow-hidden rounded-[28px] bg-ink-950">
+            {/* Sorriso real depois da prótese protocolo: no topo no mobile;
+                metade direita no desktop, dissolvendo no preto do cartão. */}
+            <figure className="smile-fade relative h-[220px] sm:h-[280px] lg:absolute lg:inset-y-0 lg:right-0 lg:h-auto lg:w-[52%]">
+              <Image
+                src="/hero/sorriso-protocolo.webp"
+                alt="Sorriso de paciente depois da prótese protocolo sobre implantes"
+                fill
+                unoptimized
+                className="object-cover object-center"
+              />
+              <figcaption className="absolute right-4 top-4 px-3 py-1.5 rounded-full bg-ink-950/70 backdrop-blur-md text-[0.75rem] font-medium text-white">
+                Caso real · Prótese protocolo
+              </figcaption>
+            </figure>
+
+            <div className="relative p-8 sm:p-12 lg:p-16 lg:max-w-[54%]">
+              <p className="text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-gold-400 mb-5">
+                Especialidade principal
+              </p>
+              <h3 className="text-[clamp(1.875rem,3.2vw,2.75rem)] leading-[1.1] tracking-[-0.025em] font-medium text-white mb-5">
+                Implantes Dentários
+              </h3>
+              <p className="text-[1.0625rem] leading-[1.7] text-ink-300 max-w-[48ch] mb-8">
+                Implantes unitários, múltiplos e prótese protocolo sobre
+                implantes. Recupere a mastigação firme e a segurança ao
+                sorrir, com planejamento digital e técnica de precisão.
+              </p>
+              <button
+                onClick={onOpenForm}
+                className="group inline-flex items-center justify-center gap-2 h-[52px] px-7 bg-gold-300 text-ink-950 font-semibold rounded-[12px] hover:bg-gold-200 transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-gold-500"
+              >
+                Agende sua consulta
+                <WhatsAppIcon size={17} />
+              </button>
             </div>
           </article>
         </AnimatedSection>

@@ -168,6 +168,20 @@ body {
   }
 }
 
+/* Sorriso no cartão de Implantes: some embaixo no mobile, à esquerda no
+   desktop (onde encontra o texto). */
+.smile-fade {
+  -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent);
+  mask-image: linear-gradient(to bottom, #000 55%, transparent);
+}
+
+@media (min-width: 1024px) {
+  .smile-fade {
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 38%);
+    mask-image: linear-gradient(to right, transparent 0%, #000 38%);
+  }
+}
+
 /* Motion das fotos. Sem suporte a scroll timelines (ou com movimento
    reduzido), tudo fica estático e visível. */
 @keyframes heroPhotoIn {
@@ -184,6 +198,12 @@ body {
   to { transform: translateY(6%) scale(1.14); }
 }
 
+/* Parallax quase sem zoom, para fotos que precisam aparecer inteiras. */
+@keyframes parallaxSoft {
+  from { transform: translateY(-2.5%) scale(1.05); }
+  to { transform: translateY(2.5%) scale(1.05); }
+}
+
 @keyframes imgReveal {
   from { clip-path: inset(12% 10% 12% 10% round var(--reveal-radius, 20px)); }
   to { clip-path: inset(0 0 0 0 round var(--reveal-radius, 20px)); }
@@ -194,6 +214,10 @@ body {
     /* Foto desliza dentro da moldura enquanto a seção passa. */
     .parallax-img {
       animation: parallax linear both;
+      animation-timeline: view();
+    }
+    .parallax-soft {
+      animation: parallaxSoft linear both;
       animation-timeline: view();
     }
     /* Retratos se abrem de um recorte menor até a moldura inteira. */

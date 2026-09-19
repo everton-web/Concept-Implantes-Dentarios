@@ -27,7 +27,7 @@ export default function Hero({ onOpenForm }: { onOpenForm: () => void }) {
           fill
           priority
           unoptimized
-          className="object-cover object-[16%_0%] sm:object-[35%_0%]"
+          className="object-cover object-[16%_0%] sm:object-[35%_0%] lg:object-contain lg:object-top"
         />
         {/* A foto já vem tratada (P&B escuro, só o dourado da placa em cor,
             vinheta radial). Aqui só um véu leve e sombra atrás do texto. */}
