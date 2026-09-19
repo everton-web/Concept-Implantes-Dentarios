@@ -246,13 +246,13 @@ export default function VideoDepoimentos() {
                   className="absolute top-[10px] left-1/2 -translate-x-1/2 h-[26px] w-[88px] rounded-full bg-black"
                 />
 
-                {/* Botão central grande: aparece na prévia muda e quando o
-                    vídeo está pausado. Fácil de acertar com o polegar. */}
+                {/* Controles no aparelho só até tablet. No desktop quem controla é a
+                    lista ao lado. Botão central: prévia muda ou vídeo pausado. */}
                 {(mudo || !tocando) && (
                   <button
                     onClick={alternarPlay}
                     aria-label={mudo ? `Assistir com som: ${video.titulo}` : "Continuar vídeo"}
-                    className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/25 transition-colors hover:bg-black/15 focus-visible:outline-none group/play"
+                    className="lg:hidden absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/25 transition-colors hover:bg-black/15 focus-visible:outline-none group/play"
                   >
                     <span className="relative flex items-center justify-center w-[76px] h-[76px] rounded-full bg-gold-300 text-ink-950 shadow-[0_12px_40px_rgba(0,0,0,0.45)] transition-transform duration-200 group-hover/play:scale-105 group-active/play:scale-95 group-focus-visible/play:ring-4 group-focus-visible/play:ring-gold-300/40">
                       <span aria-hidden className="absolute inset-0 rounded-full bg-gold-300/40 animate-ping [animation-duration:2.4s]" />
@@ -265,7 +265,7 @@ export default function VideoDepoimentos() {
                 )}
 
                 {/* Base: legenda, progresso e controles de 44px. */}
-                <div className="absolute inset-x-0 bottom-0 pt-20 pb-4 px-4 bg-[linear-gradient(to_top,rgba(0,0,0,0.78),rgba(0,0,0,0.35)_45%,transparent)] pointer-events-none">
+                <div className="lg:hidden absolute inset-x-0 bottom-0 pt-20 pb-4 px-4 bg-[linear-gradient(to_top,rgba(0,0,0,0.78),rgba(0,0,0,0.35)_45%,transparent)] pointer-events-none">
                   <span className="block text-[0.9375rem] font-medium text-white leading-snug">
                     {video.titulo}
                   </span>

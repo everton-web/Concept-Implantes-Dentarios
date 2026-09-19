@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import SmileMosaic from "./SmileMosaic";
+import SimboloConcept from "./SimboloConcept";
 import WhatsAppIcon from "./WhatsAppIcon";
 import SpecialtyTicker from "./SpecialtyTicker";
 import GoogleRating from "./GoogleRating";
@@ -22,25 +23,12 @@ export default function Hero({ onOpenForm }: { onOpenForm: () => void }) {
         className="animate-fade relative h-[340px] sm:h-[440px] lg:absolute lg:inset-y-0 lg:right-0 lg:h-auto lg:w-[58vw]"
       >
         <SmileMosaic />
+      </div>
 
-        {/* Símbolo da Concept sobre as fotos, como uma marca d'água dourada:
-            translúcido, com um halo difuso, flutuando devagar. */}
-        <div
-          aria-hidden
-          className="absolute left-1/2 top-[44%] lg:left-[60%] lg:top-1/2 -translate-x-1/2 -translate-y-1/2 w-[58%] max-w-[240px] sm:max-w-[320px] lg:w-[46%] lg:max-w-[440px] pointer-events-none"
-        >
-          <div className="hero-symbol">
-            <Image
-              src="/marca/simbolo-concept.webp"
-              alt=""
-              width={520}
-              height={427}
-              priority
-              unoptimized
-              className="block w-full h-auto opacity-[0.45] mix-blend-screen drop-shadow-[0_0_28px_rgba(252,219,159,0.35)]"
-            />
-          </div>
-        </div>
+      {/* Símbolo da Concept em escala de seção, cortado pelas bordas: um
+          overlay branco bem sutil sobre fotos e fundo, sem cor. */}
+      <div aria-hidden className="absolute inset-0 overflow-hidden pointer-events-none">
+        <SimboloConcept className="hero-symbol absolute text-white opacity-[0.07] w-[165%] -left-[20%] top-[2%] sm:w-[120%] lg:w-auto lg:h-[135%] lg:left-auto lg:-right-[16%] lg:-top-[14%]" />
       </div>
 
       <div className="relative mx-auto max-w-[1200px] w-full px-6 md:px-10 lg:px-16 -mt-16 sm:-mt-24 pb-14 lg:mt-0 lg:py-24">
