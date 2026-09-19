@@ -58,7 +58,7 @@ interface Props {
 }
 
 export default function FormModal({ isOpen, onClose }: Props) {
-  const [form, setForm] = useState({ name: "", phone: "" });
+  const [form, setForm] = useState({ name: "", lastName: "", phone: "" });
   const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
   const [errors, setErrors] = useState<Record<string, string>>({});
   // Anti-robô: campo-isca invisível e o momento em que o formulário abriu.
@@ -82,9 +82,12 @@ export default function FormModal({ isOpen, onClose }: Props) {
     return () => window.removeEventListener("keydown", onKey);
   }, [isOpen, onClose]);
 
+  const nomeCompleto = `${form.name.trim()} ${form.lastName.trim()}`.trim();
+
   function validate() {
     const e: Record<string, string> = {};
     if (!form.name.trim()) e.name = "Informe seu nome";
+    if (!form.lastName.trim()) e.lastName = "Informe seu sobrenome";
     if (form.phone.replace(/\D/g, "").length < 10)
       e.phone = "Informe um WhatsApp válido";
     return e;
@@ -98,7 +101,8 @@ export default function FormModal({ isOpen, onClose }: Props) {
 
     setStatus("sending");
 
-    await sendLead(form.name.trim(), form.phone, isca, abertoEm.current);
+    // Na planilha, nome e sobrenome vão juntos numa coluna só.
+    await sendLead(nomeCompleto, form.phone, isca, abertoEm.current);
 
     // Evento para o GTM (conversão no Google Ads / Analytics). Sem dados
     // pessoais: só o nome do evento e a origem.
@@ -109,7 +113,7 @@ export default function FormModal({ isOpen, onClose }: Props) {
     setStatus("sent");
 
     const text = encodeURIComponent(
-      `Olá! Sou ${form.name.trim()} e gostaria de agendar uma consulta.`
+      `Olá! Sou ${nomeCompleto} e gostaria de agendar uma consulta.`
     );
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${text}`, "_blank");
   }
@@ -117,7 +121,7 @@ export default function FormModal({ isOpen, onClose }: Props) {
   function handleClose() {
     onClose();
     setTimeout(() => {
-      setForm({ name: "", phone: "" });
+      setForm({ name: "", lastName: "", phone: "" });
       setStatus("idle");
       setErrors({});
       setIsca("");
@@ -170,7 +174,7 @@ export default function FormModal({ isOpen, onClose }: Props) {
                   não abrir, toque no botão abaixo.
                 </p>
                 <a
-                  href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(`Olá! Sou ${form.name.trim()} e gostaria de agendar uma consulta.`)}`}
+                  href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(`Olá! Sou ${nomeCompleto} e gostaria de agendar uma consulta.`)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center gap-2 h-[48px] px-7 bg-[#25D366] text-white font-semibold rounded-[10px] hover:bg-[#1FBE5A] transition-colors"
@@ -207,21 +211,41 @@ export default function FormModal({ isOpen, onClose }: Props) {
                 </div>
 
                 <div className="space-y-4">
-                  <div>
-                    <label htmlFor="name" className="block text-[0.8125rem] font-semibold text-ink-950 mb-2">
-                      Nome
-                    </label>
-                    <input
-                      id="name"
-                      type="text"
-                      autoComplete="name"
-                      maxLength={80}
-                      placeholder="Como podemos te chamar?"
-                      value={form.name}
-                      onChange={(e) => setForm({ ...form, name: e.target.value })}
-                      className={`w-full h-[48px] px-4 rounded-[10px] border bg-white text-ink-950 placeholder:text-ink-400 focus:outline-none focus:ring-2 focus:ring-gold-400/50 focus:border-gold-400 transition-all text-[0.9375rem] ${errors.name ? "border-red-300" : "border-ink-100"}`}
-                    />
-                    {errors.name && <p className="mt-1.5 text-[0.75rem] text-red-500">{errors.name}</p>}
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label htmlFor="name" className="block text-[0.8125rem] font-semibold text-ink-950 mb-2">
+                        Nome
+                      </label>
+                      <input
+                        id="name"
+                        type="text"
+                        autoComplete="given-name"
+                        autoCapitalize="words"
+                        maxLength={60}
+                        placeholder="Seu nome"
+                        value={form.name}
+                        onChange={(e) => setForm({ ...form, name: e.target.value })}
+                        className={`w-full h-[48px] px-4 rounded-[10px] border bg-white text-ink-950 placeholder:text-ink-400 focus:outline-none focus:ring-2 focus:ring-gold-400/50 focus:border-gold-400 transition-all text-[0.9375rem] ${errors.name ? "border-red-300" : "border-ink-100"}`}
+                      />
+                      {errors.name && <p className="mt-1.5 text-[0.75rem] text-red-500">{errors.name}</p>}
+                    </div>
+                    <div>
+                      <label htmlFor="lastName" className="block text-[0.8125rem] font-semibold text-ink-950 mb-2">
+                        Sobrenome
+                      </label>
+                      <input
+                        id="lastName"
+                        type="text"
+                        autoComplete="family-name"
+                        autoCapitalize="words"
+                        maxLength={60}
+                        placeholder="Seu sobrenome"
+                        value={form.lastName}
+                        onChange={(e) => setForm({ ...form, lastName: e.target.value })}
+                        className={`w-full h-[48px] px-4 rounded-[10px] border bg-white text-ink-950 placeholder:text-ink-400 focus:outline-none focus:ring-2 focus:ring-gold-400/50 focus:border-gold-400 transition-all text-[0.9375rem] ${errors.lastName ? "border-red-300" : "border-ink-100"}`}
+                      />
+                      {errors.lastName && <p className="mt-1.5 text-[0.75rem] text-red-500">{errors.lastName}</p>}
+                    </div>
                   </div>
 
                   <div>

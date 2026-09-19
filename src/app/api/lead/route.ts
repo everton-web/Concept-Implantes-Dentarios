@@ -89,7 +89,7 @@ export async function POST(request: Request) {
   const digitos = telefone.replace(/\D/g, "");
   if (
     nome.length < 2 ||
-    nome.length > 80 ||
+    nome.length > 121 ||
     /https?:|www\.|<|>/i.test(nome) ||
     digitos.length < 10 ||
     digitos.length > 11
