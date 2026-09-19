@@ -1,7 +1,9 @@
-import type { Metadata } from "next";
-import { Manrope, Instrument_Serif } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Manrope } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
+import StructuredData from "@/components/StructuredData";
+import { CLINICA, SITE_URL } from "@/data/site";
 
 const manrope = Manrope({
   subsets: ["latin"],
@@ -9,33 +11,72 @@ const manrope = Manrope({
   display: "swap",
 });
 
-const instrumentSerif = Instrument_Serif({
-  subsets: ["latin"],
-  weight: "400",
-  style: ["italic", "normal"],
-  variable: "--font-instrument-serif",
-  display: "swap",
-});
-
 const GTM_ID = "GTM-M9GM99DS";
 
+const TITULO = "Implantes Dentários em Camboriú, SC | Concept";
+const DESCRICAO =
+  "Implantes dentários, prótese protocolo, facetas e harmonização orofacial em Camboriú, SC. Odontologia humanizada, acolhedora e sem julgamentos. Agende sua consulta.";
+
 export const metadata: Metadata = {
-  title: "Concept Implantes Dentários | Camboriú, SC",
-  description:
-    "Odontologia humanizada em Camboriú. Implantes dentários, harmonização orofacial, estética dental e mais, com escuta, acolhimento e cuidado integral.",
-  openGraph: {
-    title: "Concept Implantes Dentários",
-    description: "Transformando sorrisos em vida. Agende sua consulta.",
-    locale: "pt_BR",
-    type: "website",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: TITULO,
+    template: "%s | Concept Implantes Dentários",
   },
+  description: DESCRICAO,
+  applicationName: CLINICA.nome,
+  keywords: [
+    "implante dentário Camboriú",
+    "implantes dentários",
+    "prótese protocolo",
+    "dentista Camboriú",
+    "facetas dentárias",
+    "lentes de contato dental",
+    "harmonização orofacial",
+    "Balneário Camboriú",
+  ],
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    locale: "pt_BR",
+    url: "/",
+    siteName: CLINICA.nome,
+    title: TITULO,
+    description: DESCRICAO,
+    images: [
+      {
+        url: "/og/concept.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Concept Implantes Dentários, implantes dentários em Camboriú, SC",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITULO,
+    description: DESCRICAO,
+    images: ["/og/concept.jpg"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large" },
+  },
+  formatDetection: { telephone: false },
+  category: "health",
+};
+
+export const viewport: Viewport = {
+  themeColor: "#101010",
+  colorScheme: "dark light",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="pt-BR"
-      className={`${manrope.variable} ${instrumentSerif.variable} h-full antialiased`}
+      className={`${manrope.variable} h-full antialiased`}
     >
       <head>
         <Script id="gtm" strategy="afterInteractive">
@@ -59,6 +100,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           />
         </noscript>
         {children}
+        <StructuredData />
       </body>
     </html>
   );

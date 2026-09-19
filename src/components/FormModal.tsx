@@ -1,35 +1,48 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { X, Loader2 } from "lucide-react";
 import WhatsAppIcon from "./WhatsAppIcon";
 import { motion, AnimatePresence } from "framer-motion";
 
 const WHATSAPP_NUMBER = "554791208176";
 
-/** Apps Script que grava cada lead na planilha (colunas: data, nome, telefone). */
+/** Apps Script que grava cada lead na planilha (colunas: data, nome, telefone).
+ *  Usado só como reserva, se a rota /api/lead do próprio site falhar. */
 const LEADS_WEBHOOK =
   "https://script.google.com/macros/s/AKfycbzcpDfqd7qVBDoWt8aXo3U_p9901OinKlAKfIvuO0hLAO-ghVeTDfYFb5OidKinoFJm/exec";
 
 /**
- * Envia o lead para a planilha. O Apps Script não libera CORS, então a
- * resposta é opaca (`no-cors`); o corpo form-urlencoded chega em `e.parameter`.
- * Nunca bloqueia o contato: se a planilha falhar ou demorar, segue para o WhatsApp.
+ * Envia o lead pela rota do site, que filtra robôs (campo-isca, tempo de
+ * preenchimento, limite por IP) antes de gravar na planilha. Se a rota
+ * estiver fora do ar, grava direto no Apps Script. Nunca bloqueia o
+ * contato: com erro ou demora, segue para o WhatsApp.
  */
-async function sendLead(nome: string, telefone: string) {
-  try {
-    await Promise.race([
-      fetch(LEADS_WEBHOOK, {
+async function sendLead(nome: string, telefone: string, empresa: string, inicio: number) {
+  const direto = () =>
+    fetch(LEADS_WEBHOOK, {
+      method: "POST",
+      mode: "no-cors",
+      keepalive: true,
+      body: new URLSearchParams({ Nome: nome, Telefone: telefone }),
+    });
+
+  const envio = (async () => {
+    try {
+      const r = await fetch("/api/lead", {
         method: "POST",
-        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
         keepalive: true,
-        body: new URLSearchParams({ Nome: nome, Telefone: telefone }),
-      }),
-      new Promise((resolve) => setTimeout(resolve, 5000)),
-    ]);
-  } catch {
-    // Falha de rede: o lead ainda chega pelo WhatsApp.
-  }
+        body: JSON.stringify({ nome, telefone, empresa, inicio }),
+      });
+      // 5xx: rota ou planilha indisponível; tenta o caminho direto.
+      if (r.status >= 500) await direto();
+    } catch {
+      await direto().catch(() => {});
+    }
+  })();
+
+  await Promise.race([envio, new Promise((resolve) => setTimeout(resolve, 5000))]);
 }
 
 function maskPhone(value: string) {
@@ -48,6 +61,13 @@ export default function FormModal({ isOpen, onClose }: Props) {
   const [form, setForm] = useState({ name: "", phone: "" });
   const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
   const [errors, setErrors] = useState<Record<string, string>>({});
+  // Anti-robô: campo-isca invisível e o momento em que o formulário abriu.
+  const [isca, setIsca] = useState("");
+  const abertoEm = useRef(0);
+
+  useEffect(() => {
+    if (isOpen) abertoEm.current = Date.now();
+  }, [isOpen]);
 
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
@@ -78,7 +98,7 @@ export default function FormModal({ isOpen, onClose }: Props) {
 
     setStatus("sending");
 
-    await sendLead(form.name.trim(), form.phone);
+    await sendLead(form.name.trim(), form.phone, isca, abertoEm.current);
 
     setStatus("sent");
 
@@ -94,6 +114,7 @@ export default function FormModal({ isOpen, onClose }: Props) {
       setForm({ name: "", phone: "" });
       setStatus("idle");
       setErrors({});
+      setIsca("");
     }, 300);
   }
 
@@ -152,7 +173,7 @@ export default function FormModal({ isOpen, onClose }: Props) {
                 </a>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} noValidate className="p-8 sm:p-10">
+              <form onSubmit={handleSubmit} noValidate className="relative p-8 sm:p-10">
                 <p className="text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-gold-500 mb-2.5">
                   Agende sua consulta
                 </p>
@@ -164,6 +185,21 @@ export default function FormModal({ isOpen, onClose }: Props) {
                   horário para você.
                 </p>
 
+                {/* Campo-isca: invisível para pessoas e leitores de tela;
+                    robôs que preenchem tudo acabam preenchendo este. */}
+                <div aria-hidden className="absolute -left-[9999px] w-px h-px overflow-hidden">
+                  <label htmlFor="empresa">Empresa</label>
+                  <input
+                    id="empresa"
+                    name="empresa"
+                    type="text"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={isca}
+                    onChange={(e) => setIsca(e.target.value)}
+                  />
+                </div>
+
                 <div className="space-y-4">
                   <div>
                     <label htmlFor="name" className="block text-[0.8125rem] font-semibold text-ink-950 mb-2">
@@ -173,6 +209,7 @@ export default function FormModal({ isOpen, onClose }: Props) {
                       id="name"
                       type="text"
                       autoComplete="name"
+                      maxLength={80}
                       placeholder="Como podemos te chamar?"
                       value={form.name}
                       onChange={(e) => setForm({ ...form, name: e.target.value })}
