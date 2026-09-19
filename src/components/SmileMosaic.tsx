@@ -63,15 +63,21 @@ const ORDEM_INICIAL: Peca[][] = Array.from({ length: N_COLUNAS }, (_, c) =>
  * por máscaras longas, uma por elemento.
  */
 export default function SmileMosaic() {
-  const [colunas, setColunas] = useState<Peca[][] | null>(null);
-  const [fases, setFases] = useState<number[]>([0, 0, 0]);
+  const [sorteio, setSorteio] = useState<{ colunas: Peca[][]; fases: number[] } | null>(null);
 
+  // O sorteio só pode acontecer no navegador (no servidor quebraria a
+  // hidratação), então roda uma vez após montar.
   useEffect(() => {
-    setColunas(Array.from({ length: N_COLUNAS }, colunaAleatoria));
-    // Cada coluna começa num ponto diferente do próprio ciclo.
-    setFases(Array.from({ length: N_COLUNAS }, () => Math.random()));
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setSorteio({
+      colunas: Array.from({ length: N_COLUNAS }, colunaAleatoria),
+      // Cada coluna começa num ponto diferente do próprio ciclo.
+      fases: Array.from({ length: N_COLUNAS }, () => Math.random()),
+    });
   }, []);
 
+  const colunas = sorteio?.colunas;
+  const fases = sorteio?.fases ?? [0, 0, 0];
   const visiveis = colunas ?? ORDEM_INICIAL;
 
   return (

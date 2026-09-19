@@ -7,6 +7,7 @@ import AnimatedSection from "./AnimatedSection";
 import { CASOS, type Caso } from "@/data/casos";
 import { AVALIACOES_GOOGLE } from "@/data/google";
 import GoogleRating from "./GoogleRating";
+import VideoDepoimentos from "./VideoDepoimentos";
 
 const TESTIMONIALS = [
   {
@@ -54,45 +55,22 @@ export default function Results() {
   return (
     <section id="sorrisos" className="relative py-[88px] lg:py-[140px] bg-ink-950">
       <div className="mx-auto max-w-[1200px] px-6 md:px-10 lg:px-16">
-        <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 items-center mb-14 lg:mb-20">
-          <AnimatedSection className="lg:col-span-7 max-w-[640px]">
-            <p className="text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-gold-400 mb-5">
-              Transformações reais
-            </p>
-            <h2 className="text-[clamp(2rem,3.6vw,3.25rem)] leading-[1.1] tracking-[-0.025em] font-medium text-white text-balance mb-5">
-              Sorrisos que contam histórias
-            </h2>
-            <p className="text-[1.0625rem] leading-[1.7] text-ink-400">
-              Casos de reabilitação oral conduzidos com técnica e acolhimento, do
-              implante unitário à prótese protocolo.
-            </p>
-          </AnimatedSection>
+        <AnimatedSection className="max-w-[640px] mb-14 lg:mb-20">
+          <p className="text-[0.6875rem] font-bold uppercase tracking-[0.14em] text-gold-400 mb-5">
+            Transformações reais
+          </p>
+          <h2 className="text-[clamp(2rem,3.6vw,3.25rem)] leading-[1.1] tracking-[-0.025em] font-medium text-white text-balance mb-5">
+            Sorrisos que contam histórias
+          </h2>
+          <p className="text-[1.0625rem] leading-[1.7] text-ink-400">
+            Casos de reabilitação oral conduzidos com técnica e acolhimento, do
+            implante unitário à prótese protocolo.
+          </p>
+        </AnimatedSection>
 
-          {/* Vídeo em câmera lenta (0,2x, 60 fps interpolados), em loop e sem
-              som. webm primeiro; mp4 para navegadores sem VP9. */}
-          <AnimatedSection delay={0.1} className="lg:col-span-5">
-            <figure className="mx-auto max-w-[340px] lg:ml-auto lg:mr-0">
-              <div className="relative aspect-[9/16] rounded-[24px] overflow-hidden bg-ink-900 ring-1 ring-white/[0.08]">
-                <video
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  preload="metadata"
-                  poster="/videos/novo-sorriso-poster.webp"
-                  aria-label="Paciente sorrindo pela primeira vez com os dentes novos, em câmera lenta"
-                  className="absolute inset-0 w-full h-full object-cover"
-                >
-                  <source src="/videos/novo-sorriso.webm" type="video/webm" />
-                  <source src="/videos/novo-sorriso.mp4" type="video/mp4" />
-                </video>
-              </div>
-              <figcaption className="mt-4 text-[0.8125rem] text-ink-400">
-                O primeiro sorriso com os dentes novos.
-              </figcaption>
-            </figure>
-          </AnimatedSection>
-        </div>
+        <AnimatedSection className="mb-20 lg:mb-28">
+          <VideoDepoimentos />
+        </AnimatedSection>
 
         <div className="grid md:grid-cols-2 gap-4 mb-16">
           {TESTIMONIALS.map((item, i) => (
