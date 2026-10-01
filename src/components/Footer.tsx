@@ -90,7 +90,7 @@ export default function Footer() {
               <li className="flex items-center gap-3">
                 <InstagramIcon width={16} height={16} className="text-gold-500 shrink-0" />
                 <a
-                  href="https://www.instagram.com/conceptimplantesdentarios/"
+                  href="https://www.instagram.com/concept.implantesdentarios/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-[0.875rem] text-ink-300 hover:text-white transition-colors"

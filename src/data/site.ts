@@ -24,7 +24,7 @@ export const CLINICA = {
     { dias: ["Monday", "Tuesday", "Wednesday", "Thursday"], abre: "09:00", fecha: "20:00" },
     { dias: ["Friday"], abre: "09:00", fecha: "17:30" },
   ],
-  instagram: "https://www.instagram.com/conceptimplantesdentarios/",
+  instagram: "https://www.instagram.com/concept.implantesdentarios/",
   google: "https://share.google/I0LmZe4REnkQxmmxf",
   responsavelTecnica: "Dra. Simone H. · CRO-SC 19661",
   especialidades: [
