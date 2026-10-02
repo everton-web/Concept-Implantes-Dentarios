@@ -86,6 +86,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','${GTM_ID}');`}
         </Script>
+        {/* Marca Digital · contador de visitas que alimenta o relatório mensal do cliente */}
+        <Script id="marca-digital-pixel" strategy="afterInteractive">
+          {`fetch("https://app.evertonbrito.com/api/t?site=conceptimplantesdentarios.com.br",{mode:"no-cors"}).catch(function(){});`}
+        </Script>
       </head>
       <body
         className="min-h-full flex flex-col"
